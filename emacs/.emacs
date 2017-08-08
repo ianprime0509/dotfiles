@@ -11,7 +11,7 @@
 ;; Appearance
 (use-package base16-theme
   :config
-  (load-theme 'base16-mocha t))
+  (load-theme 'base16-phd t))
 (add-to-list 'default-frame-alist '(font . "Inconsolata 12"))
 (global-linum-mode) ; Show line numbers on the side
 (column-number-mode) ; Show column number in mode line
