@@ -12,7 +12,7 @@
 (use-package base16-theme
   :config
   (load-theme 'base16-solarflare t))
-(add-to-list 'default-frame-alist '(font . "monospace 12"))
+(add-to-list 'default-frame-alist '(font . "monospace 10"))
 (global-linum-mode) ; Show line numbers on the side
 (column-number-mode) ; Show column number in mode line
 ;; Highlight (some) whitespace
@@ -76,9 +76,14 @@
 (use-package clang-format)
 
 ;; Rust setup
+(defun my-rust-setup ()
+  (make-local-variable 'whitespace-line-column)
+  (setq whitespace-line-column 100))
+
 (use-package rust-mode
   :init
   (add-hook 'rust-mode-hook #'racer-mode)
+  (add-hook 'rust-mode-hook #'my-rust-setup)
   :config
   (setq rust-format-on-save t)
   (use-package flycheck-rust
