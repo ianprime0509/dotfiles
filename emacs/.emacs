@@ -11,8 +11,7 @@
 ;; Appearance
 (use-package base16-theme
   :config
-  (load-theme 'base16-solarflare t))
-(add-to-list 'default-frame-alist '(font . "monospace 10"))
+  (load-theme 'base16-default-dark t))
 (global-linum-mode) ; Show line numbers on the side
 (column-number-mode) ; Show column number in mode line
 ;; Highlight (some) whitespace
@@ -48,10 +47,6 @@
   (setq company-tooltip-limit 20)
   (setq company-idle-delay .3))
 
-;; Mail (mutt)
-(add-to-list 'auto-mode-alist '("/mutt" . mail-mode))
-(add-hook 'mail-mode-hook 'turn-on-auto-fill)
-
 ;; C/C++ setup
 (defun my-c-setup ()
   (add-hook 'before-save-hook #'clang-format-buffer nil t))
@@ -75,6 +70,17 @@
       '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))))
 (use-package clang-format)
 
+;; Go setup
+(use-package go-mode
+  :init
+  (add-hook 'before-save-hook 'gofmt-before-save)
+  :config
+  (setq gofmt-command "goimports")
+  (use-package company-go))
+
+;; Markdown setup
+(use-package markdown-mode)
+
 ;; Rust setup
 (defun my-rust-setup ()
   (make-local-variable 'whitespace-line-column)
@@ -94,15 +100,6 @@
     :init
     (add-hook 'racer-mode-hook #'eldoc-mode)
     (add-hook 'racer-mode-hook #'company-mode)))
-
-;; Go setup
-(use-package go-mode
-  :init
-  (add-hook 'before-save-hook 'gofmt-before-save)
-  :config
-  (setq gofmt-command "goimports")
-  (use-package company-go))
-
 
 ;; Git setup
 (use-package magit
@@ -128,7 +125,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (racer flycheck-rust rust-mode evil-magit magit company-go go-mode clang-format flycheck-irony company-irony irony company flycheck smart-tabs-mode base16-theme evil use-package))))
+    (markdown-mode racer flycheck-rust rust-mode evil-magit magit company-go go-mode clang-format flycheck-irony company-irony irony company flycheck smart-tabs-mode base16-theme evil use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
