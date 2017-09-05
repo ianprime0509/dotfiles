@@ -79,7 +79,9 @@
   (use-package company-go))
 
 ;; Markdown setup
-(use-package markdown-mode)
+(use-package markdown-mode
+  :config
+  (setq-default markdown-command "cmark"))
 
 ;; Rust setup
 (defun my-rust-setup ()
@@ -108,6 +110,9 @@
   :bind ("C-x g" . magit-status))
 (add-to-list 'auto-mode-alist '("COMMIT_EDITMSG" . git-commit-mode))
 
+;; Misc. file formats
+(use-package yaml-mode)
+
 ;; Misc configuration
 ;; Move save files somewhere else
 (setq
@@ -125,7 +130,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (markdown-mode racer flycheck-rust rust-mode evil-magit magit company-go go-mode clang-format flycheck-irony company-irony irony company flycheck smart-tabs-mode base16-theme evil use-package))))
+    (yaml-mode markdown-mode racer flycheck-rust rust-mode evil-magit magit company-go go-mode clang-format flycheck-irony company-irony irony company flycheck smart-tabs-mode base16-theme evil use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
