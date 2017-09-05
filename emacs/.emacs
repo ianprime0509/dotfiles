@@ -1,7 +1,19 @@
+;;; .emacs --- Summary
+;;; My custom Emacs configuration.
+
+;;; Commentary:
+;;; Nothing to see here!
+
+;;; Code:
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 
+;; Make sure use-package is installed
+(if (not (package-installed-p "use-package"))
+    (package-install "use-package"))
+
+(require 'use-package)
 (setq use-package-always-ensure t)
 
 (use-package evil
@@ -49,6 +61,7 @@
 
 ;; C/C++ setup
 (defun my-c-setup ()
+  "Custom setup for 'c-mode' and 'c++-mode'."
   (add-hook 'before-save-hook #'clang-format-buffer nil t))
 (add-hook 'c-mode-hook #'my-c-setup)
 (add-hook 'c++-mode-hook #'my-c-setup)
@@ -85,6 +98,7 @@
 
 ;; Rust setup
 (defun my-rust-setup ()
+  "Custom setup for 'rust-mode'."
   (make-local-variable 'whitespace-line-column)
   (setq whitespace-line-column 100))
 
@@ -123,17 +137,12 @@
    kept-new-versions 6
    kept-old-versions 2
    version-control t)       ; use versioned backups
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (yaml-mode markdown-mode racer flycheck-rust rust-mode evil-magit magit company-go go-mode clang-format flycheck-irony company-irony irony company flycheck smart-tabs-mode base16-theme evil use-package))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+
+;; Stop polluting this file with the "custom" stuff; shove those
+;; variables elsewhere
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(when (file-exists-p custom-file)
+  (load custom-file))
+
+(provide '.emacs)
+;;; .emacs ends here
