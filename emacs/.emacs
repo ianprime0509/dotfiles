@@ -17,10 +17,6 @@
   :init
   (setq use-package-always-ensure t))
 
-(use-package evil
-  :config
-  (evil-mode 1))
-
 ;; Appearance
 (use-package base16-theme
   :config
@@ -36,18 +32,20 @@
 (setq inhibit-startup-screen t)
 (toggle-scroll-bar -1)
 (tool-bar-mode -1)
-;; This disables a setting which doesn't work well on Wayland
-(setq select-enable-clipboard nil)
-
-;; Evil (vim) mode
-(evil-set-initial-state 'term-mode 'emacs)
+;; Ido mode
+(require 'ido)
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
+(ido-mode 1)
 
 ;; Indentation
 (setq-default tab-width 4)
 (setq-default indent-tabs-mode nil)
-(setq-default evil-shift-width tab-width)
 (setq-default c-basic-offset tab-width)
 (setq-default backward-delete-char-untabify-method 'hungry) ; Delete entire tabs
+
+;; Text
+(setq-default sentence-end-double-space nil) ; Don't use two spaces after period
 
 ;; Globally useful packages
 (use-package flycheck
@@ -120,8 +118,6 @@
 
 ;; Git setup
 (use-package magit
-  :config
-  (use-package evil-magit)
   :bind ("C-x g" . magit-status))
 (add-to-list 'auto-mode-alist '("COMMIT_EDITMSG" . git-commit-mode))
 
