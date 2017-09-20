@@ -20,7 +20,7 @@
 ;; Appearance
 (use-package base16-theme
   :config
-  (load-theme 'base16-default-dark t))
+  (load-theme 'base16-bright t))
 (global-linum-mode) ; Show line numbers on the side
 (column-number-mode) ; Show column number in mode line
 ;; Highlight (some) whitespace
