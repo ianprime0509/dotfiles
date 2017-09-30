@@ -116,6 +116,10 @@
     (add-hook 'racer-mode-hook #'eldoc-mode)
     (add-hook 'racer-mode-hook #'company-mode)))
 
+;; TeX setup
+(use-package tex
+  :ensure auctex)
+
 ;; Git setup
 (use-package magit
   :bind ("C-x g" . magit-status))
