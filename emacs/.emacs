@@ -11,7 +11,8 @@
 
 ;; Make sure use-package is installed
 (unless (package-installed-p 'use-package)
-  (package-install "use-package"))
+  (package-refresh-contents)
+  (package-install 'use-package))
 
 (use-package use-package
   :init
@@ -127,6 +128,20 @@
 
 ;; Misc. file formats
 (use-package yaml-mode)
+
+;; Email setup (gnus)
+(require 'gnus)
+(require 'smtpmail)
+(setq user-mail-address "ianprime0509@gmail.com"
+      user-full-name "Ian Johnson")
+(setq gnus-select-method
+      '(nnimap "gmail"
+               (nnimap-address "imap.gmail.com")
+               (nnimap-server-port "imaps")
+               (nnimap-stream ssl)))
+(setq smtpmail-smtp-server "smtp.gmail.com"
+      smtpmail-smtp-service 587)
+(setq send-mail-function 'smtpmail-send-it)
 
 ;; Misc configuration
 ;; Move save files somewhere else
