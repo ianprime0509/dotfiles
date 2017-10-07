@@ -9,6 +9,14 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 
+;; Stop polluting this file with the "custom" stuff; shove those
+;; variables elsewhere. This MUST come before other settings, so that
+;; whatever shit gets shoved in the custom file doesn't overwrite my
+;; actual settings... this has happened before.
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(when (file-exists-p custom-file)
+  (load custom-file))
+
 ;; Make sure use-package is installed
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -44,6 +52,10 @@
 (setq-default indent-tabs-mode nil)
 (setq-default c-basic-offset tab-width)
 (setq-default backward-delete-char-untabify-method 'hungry) ; Delete entire tabs
+(use-package hungry-delete
+  :config
+  (setq-default hungry-delete-chars-to-skip " \t")
+  (global-hungry-delete-mode))
 
 ;; Text
 (setq-default sentence-end-double-space nil) ; Don't use two spaces after period
@@ -141,7 +153,8 @@
                (nnimap-stream ssl)))
 (setq smtpmail-smtp-server "smtp.gmail.com"
       smtpmail-smtp-service 587)
-(setq send-mail-function 'smtpmail-send-it)
+(setq-default send-mail-function 'smtpmail-send-it
+              message-send-mail-function 'message-smtpmail-send-it)
 
 ;; Misc configuration
 ;; Move save files somewhere else
@@ -153,12 +166,6 @@
    kept-new-versions 6
    kept-old-versions 2
    version-control t)       ; use versioned backups
-
-;; Stop polluting this file with the "custom" stuff; shove those
-;; variables elsewhere
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(when (file-exists-p custom-file)
-  (load custom-file))
 
 (provide '.emacs)
 ;;; .emacs ends here
