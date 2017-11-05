@@ -27,20 +27,22 @@
   (setq use-package-always-ensure t))
 
 ;; Appearance
-(use-package base16-theme
-  :config
-  (load-theme 'base16-bright t))
+;; Interface
+(setq inhibit-startup-screen t)
+(toggle-scroll-bar -1)
+(tool-bar-mode -1)
 (global-linum-mode) ; Show line numbers on the side
 (column-number-mode) ; Show column number in mode line
 ;; Highlight (some) whitespace
 (require 'whitespace)
 (setq whitespace-style '(face lines-tail trailing))
 (global-whitespace-mode t)
+;; Theme
+(use-package moe-theme
+  :config
+  (moe-theme-set-color 'green)
+  (moe-dark))
 
-;; Interface
-(setq inhibit-startup-screen t)
-(toggle-scroll-bar -1)
-(tool-bar-mode -1)
 ;; Ido mode
 (require 'ido)
 (setq ido-enable-flex-matching t)
@@ -144,6 +146,7 @@
 ;; Email setup (gnus)
 (require 'gnus)
 (require 'smtpmail)
+;; Account setup
 (setq user-mail-address "ianprime0509@gmail.com"
       user-full-name "Ian Johnson")
 (setq gnus-select-method
@@ -155,6 +158,9 @@
       smtpmail-smtp-service 587)
 (setq-default send-mail-function 'smtpmail-send-it
               message-send-mail-function 'message-smtpmail-send-it)
+;; Appearance
+(setq-default gnus-summary-line-format
+              "%U%R%z%I%(%[%d: %-23,23f%]%) %s\n")
 
 ;; Misc configuration
 ;; Move save files somewhere else
