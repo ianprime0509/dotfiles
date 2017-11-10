@@ -60,7 +60,8 @@
   (global-hungry-delete-mode))
 
 ;; Text
-(setq-default sentence-end-double-space nil) ; Don't use two spaces after period
+(setq sentence-end-double-space nil) ; Don't use two spaces after period
+(setq mode-require-final-newline t)
 
 ;; Globally useful packages
 (use-package flycheck
@@ -145,22 +146,56 @@
 
 ;; Email setup (gnus)
 (require 'gnus)
+(require 'gnus-group)
 (require 'smtpmail)
 ;; Account setup
 (setq user-mail-address "ianprime0509@gmail.com"
       user-full-name "Ian Johnson")
 (setq gnus-select-method
-      '(nnimap "gmail"
+      '(nnimap "personal"
                (nnimap-address "imap.gmail.com")
                (nnimap-server-port "imaps")
-               (nnimap-stream ssl)))
-(setq smtpmail-smtp-server "smtp.gmail.com"
-      smtpmail-smtp-service 587)
-(setq-default send-mail-function 'smtpmail-send-it
-              message-send-mail-function 'message-smtpmail-send-it)
+               (nnimap-stream ssl)
+               (nnimap-authinfo-file "~/.authinfo.gpg")))
+(add-to-list 'gnus-secondary-select-methods
+             '(nnimap "professional"
+                      (nnimap-address "imap.gmail.com")
+                      (nnimap-server-port "imaps")
+                      (nnimap-stream ssl)
+                      (nnimap-authinfo-file "~/.authinfo.gpg")))
+(setq send-mail-function 'sendmail-send-it)
+(setq message-send-mail-function 'message-send-mail-with-sendmail)
+(setq sendmail-program "/usr/bin/msmtp")
+(setq-default gnus-permanently-visible-groups ".*")
+;; Parameters
+(setq gnus-parameters
+      '(("nnimap personal:(INBOX|[Gmail]/.*)"
+         (display . all)
+         (posting-style
+          (name "Ian Johnson")
+          (address "ianprime0509@gmail.com"))
+         (expiry-target . delete))
+        ("nnimap professional:(INBOX|[Gmail]/.*)"
+         (display . all)
+         (posting-style
+          (name "Ian Johnson")
+          (address "iantimothyjohnson@gmail.com"))
+         (expiry-target . delete))))
+(setq gnus-posting-styles
+      '(((header "to" "ianprime0509@gmail.com")
+         (address "ianprime0509@gmail.com"))
+        ((header "cc" "ianprime0509@gmail.com")
+         (address "ianprime0509@gmail.com"))
+        ((header "to" "iantimothyjohnson@gmail.com")
+         (address "iantimothyjohnson@gmail.com"))
+        ((header "cc" "iantimothyjohnson@gmail.com")
+         (address "iantimothyjohnson@gmail.com"))))
 ;; Appearance
-(setq-default gnus-summary-line-format
+(add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
+(setq gnus-group-line-format "%M%S%p%P%5y:%B%(%G%)\n")
+(setq gnus-summary-line-format
               "%U%R%z%I%(%[%d: %-23,23f%]%) %s\n")
+
 
 ;; Misc configuration
 ;; Move save files somewhere else
