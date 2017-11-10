@@ -168,19 +168,8 @@
 (setq sendmail-program "/usr/bin/msmtp")
 (setq-default gnus-permanently-visible-groups ".*")
 ;; Parameters
-(setq gnus-parameters
-      '(("nnimap personal:(INBOX|[Gmail]/.*)"
-         (display . all)
-         (posting-style
-          (name "Ian Johnson")
-          (address "ianprime0509@gmail.com"))
-         (expiry-target . delete))
-        ("nnimap professional:(INBOX|[Gmail]/.*)"
-         (display . all)
-         (posting-style
-          (name "Ian Johnson")
-          (address "iantimothyjohnson@gmail.com"))
-         (expiry-target . delete))))
+(setq nnmail-expiry-wait 'immediate
+      nnmail-expiry-target 'delete)
 (setq gnus-posting-styles
       '(((header "to" "ianprime0509@gmail.com")
          (address "ianprime0509@gmail.com"))
