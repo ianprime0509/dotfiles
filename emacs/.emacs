@@ -29,7 +29,7 @@
 ;; Appearance
 ;; Interface
 (setq inhibit-startup-screen t)
-(toggle-scroll-bar -1)
+(scroll-bar-mode -1)
 (tool-bar-mode -1)
 (global-linum-mode) ; Show line numbers on the side
 (column-number-mode) ; Show column number in mode line
@@ -62,6 +62,7 @@
 ;; Text
 (setq sentence-end-double-space nil) ; Don't use two spaces after period
 (setq mode-require-final-newline t)
+(setq-default fill-column 79)
 
 ;; Globally useful packages
 (use-package flycheck
