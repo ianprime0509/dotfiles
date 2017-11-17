@@ -33,6 +33,9 @@
 (tool-bar-mode -1)
 (global-linum-mode) ; Show line numbers on the side
 (column-number-mode) ; Show column number in mode line
+;; Options for new frames
+(add-to-list 'default-frame-alist '(height . 48))
+(add-to-list 'default-frame-alist '(width . 82))
 ;; Highlight (some) whitespace
 (require 'whitespace)
 (setq whitespace-style '(face lines-tail trailing))
