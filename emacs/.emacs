@@ -42,9 +42,12 @@
 (global-whitespace-mode t)
 ;; Theme
 (use-package moe-theme
+  :init
+  (add-hook 'before-make-frame-hook 'moe-dark)
   :config
   (moe-theme-set-color 'green)
   (moe-dark))
+
 
 ;; Ido mode
 (require 'ido)
