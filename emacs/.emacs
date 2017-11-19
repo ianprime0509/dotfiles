@@ -83,6 +83,13 @@
   (setq company-tooltip-limit 20)
   (setq company-idle-delay .3))
 
+;; Org mode
+(require 'org)
+(global-set-key (kbd "C-c l") 'org-store-link)
+(global-set-key (kbd "C-c a") 'org-agenda)
+(setq org-log-done 'time)               ; Log a time stamp for DONE
+(setq org-agenda-files (list "~/org/personal.org"))
+
 ;; C/C++ setup
 (defun my-c-setup ()
   "Custom setup for 'c-mode' and 'c++-mode'."
@@ -157,6 +164,8 @@
 (require 'gnus)
 (require 'gnus-group)
 (require 'smtpmail)
+;; Keyboard shortcut to open gnus
+(global-set-key (kbd "C-c g") 'gnus)
 ;; Account setup
 (setq user-mail-address "ianprime0509@gmail.com"
       user-full-name "Ian Johnson")
