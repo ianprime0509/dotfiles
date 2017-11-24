@@ -88,7 +88,15 @@
 (global-set-key (kbd "C-c l") 'org-store-link)
 (global-set-key (kbd "C-c a") 'org-agenda)
 (setq org-log-done 'time)               ; Log a time stamp for DONE
-(setq org-agenda-files (list "~/org/personal.org"))
+(setq org-agenda-files (list
+                        "~/org/personal.org"
+                        "~/org/facets.org"
+                        "~/org/professional.org"))
+;; Emacs Lisp setup
+(defun my-emacs-lisp-setup ()
+  "Custom setup for Emacs Lisp."
+  (local-set-key (kbd "C-c C-e") 'eval-buffer))
+(add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-setup)
 
 ;; C/C++ setup
 (defun my-c-setup ()
