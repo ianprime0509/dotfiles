@@ -31,6 +31,7 @@
 (setq inhibit-startup-screen t)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
+(menu-bar-mode -1)
 (global-linum-mode) ; Show line numbers on the side
 (column-number-mode) ; Show column number in mode line
 ;; Options for new frames
