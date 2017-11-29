@@ -166,6 +166,7 @@
 (use-package magit
   :bind ("C-x g" . magit-status))
 (add-to-list 'auto-mode-alist '("COMMIT_EDITMSG" . git-commit-mode))
+(setq vc-follow-symlinks t)             ; disable annoying question
 
 ;; Misc. file formats
 (use-package yaml-mode)
