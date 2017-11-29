@@ -74,6 +74,12 @@
 (setq mode-require-final-newline t)
 (setq-default fill-column 79)
 
+;; Spell-checking
+(require 'ispell)
+(setq ispell-dictionary "en")
+(add-hook 'text-mode-hook 'flyspell-mode)
+(add-hook 'prog-mode-hook 'flyspell-prog-mode)
+
 ;; Globally useful packages
 (use-package flycheck
   :config
