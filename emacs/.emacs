@@ -217,14 +217,13 @@
 (setq gnus-posting-styles
       (let ((my-emails '("ianprime0509@gmail.com"
                          "iantimothyjohnson@gmail.com"
-                         "ij6fd@virginia.edu"))
-            styles)
-        (dolist (addr my-emails styles)
-          (setq styles
-                (append styles
-                        (mapcar (lambda (str)
-                                  `((header ,str ,addr) (address ,addr)))
-                                '("to" "cc")))))))
+                         "ij6fd@virginia.edu")))
+        (apply 'append
+               (mapcar (lambda (addr)
+                         (mapcar (lambda (str)
+                                   `((header ,str ,addr) (address ,addr)))
+                                 '("to" "cc")))
+                       my-emails))))
 ;; Appearance
 (add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
 (setq gnus-group-line-format "%M%S%p%P%5y:%B%(%G%)\n")
