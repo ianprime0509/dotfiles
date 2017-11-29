@@ -32,6 +32,7 @@
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
+(setq initial-scratch-message "")
 (global-linum-mode) ; Show line numbers on the side
 (column-number-mode) ; Show column number in mode line
 ;; Options for new frames
@@ -190,6 +191,12 @@
                       (nnimap-server-port "imaps")
                       (nnimap-stream ssl)
                       (nnimap-authinfo-file "~/.authinfo.gpg")))
+(add-to-list 'gnus-secondary-select-methods
+             '(nnimap "uva"
+                      (nnimap-address "imap.gmail.com")
+                      (nnimap-server-port "imaps")
+                      (nnimap-stream ssl)
+                      (nnimap-authinfo-file "~/.authinfo.gpg")))
 (setq send-mail-function 'sendmail-send-it)
 (setq message-send-mail-function 'message-send-mail-with-sendmail)
 (setq sendmail-program "/usr/bin/msmtp")
@@ -197,20 +204,24 @@
 ;; Parameters
 (setq nnmail-expiry-wait 'immediate
       nnmail-expiry-target 'delete)
+;; Set "posting styles" appropriately for each email
+;; Behold my first nontrivial elisp code and marvel at how absolute shit it
+;; looks :)
 (setq gnus-posting-styles
-      '(((header "to" "ianprime0509@gmail.com")
-         (address "ianprime0509@gmail.com"))
-        ((header "cc" "ianprime0509@gmail.com")
-         (address "ianprime0509@gmail.com"))
-        ((header "to" "iantimothyjohnson@gmail.com")
-         (address "iantimothyjohnson@gmail.com"))
-        ((header "cc" "iantimothyjohnson@gmail.com")
-         (address "iantimothyjohnson@gmail.com"))))
+      (let ((my-emails '("ianprime0509@gmail.com"
+                         "iantimothyjohnson@gmail.com"
+                         "ij6fd@virginia.edu"))
+            styles)
+        (dolist (addr my-emails styles)
+          (setq styles
+                (append styles
+                        (mapcar (lambda (str)
+                                  `((header ,str ,addr) (address ,addr)))
+                                '("to" "cc")))))))
 ;; Appearance
 (add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
 (setq gnus-group-line-format "%M%S%p%P%5y:%B%(%G%)\n")
-(setq gnus-summary-line-format
-              "%U%R%z%I%(%[%d: %-23,23f%]%) %s\n")
+(setq gnus-summary-line-format "%U%R%z%I%(%[%d: %-23,23f%]%) %s\n")
 
 
 ;; Misc configuration
