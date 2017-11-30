@@ -241,6 +241,7 @@
 ;; Parameters
 (setq nnmail-expiry-wait 'immediate
       nnmail-expiry-target 'delete)
+(setq gnus-auto-expirable-newsgroups ".*")
 ;; Set "posting styles" appropriately for each email
 ;; Behold my first nontrivial elisp code and marvel at how absolute shit it
 ;; looks :)
