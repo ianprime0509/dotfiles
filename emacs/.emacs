@@ -52,6 +52,8 @@
   (moe-theme-set-color 'green)
   (moe-dark))
 
+;; Window navigation
+(global-set-key (kbd "M-o") 'other-window)
 
 ;; Ido mode
 (require 'ido)
@@ -100,11 +102,39 @@
                         "~/org/personal.org"
                         "~/org/facets.org"
                         "~/org/professional.org"))
+
+;; General Lisp setup
+(use-package paredit
+  :init
+  (dolist (mode '(lisp-mode-hook
+                  lisp-interaction-mode-hook
+                  emacs-lisp-mode-hook
+                  ielm-mode-hook
+                  eval-expression-minibuffer-setup-hook
+                  scheme-mode-hook
+                  geiser-repl-mode-hook))
+    (add-hook mode 'enable-paredit-mode)))
+(use-package highlight-parentheses
+  :init
+  (dolist (mode '(lisp-mode-hook
+                  lisp-interaction-mode-hook
+                  emacs-lisp-mode-hook
+                  ielm-mode-hook
+                  eval-expression-minibuffer-setup-hook
+                  scheme-mode-hook
+                  geiser-repl-mode-hook))
+    (add-hook mode 'highlight-parentheses-mode)))
+
 ;; Emacs Lisp setup
 (defun my-emacs-lisp-setup ()
   "Custom setup for Emacs Lisp."
-  (local-set-key (kbd "C-c C-e") 'eval-buffer))
+  (local-set-key (kbd "C-c C-b") 'eval-buffer))
 (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-setup)
+
+;; Scheme setup
+(use-package geiser
+  :config
+  (setq geiser-active-implementations '(guile)))
 
 ;; C/C++ setup
 (defun my-c-setup ()
