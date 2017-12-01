@@ -89,6 +89,8 @@
 (use-package company
   :init
   (add-hook 'after-init-hook 'global-company-mode)
+  :bind
+  ("C-<tab>" . company-complete)
   :config
   (setq company-tooltip-limit 20)
   (setq company-idle-delay .3))
