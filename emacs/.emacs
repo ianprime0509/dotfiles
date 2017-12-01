@@ -260,6 +260,14 @@
 (setq gnus-group-line-format "%M%S%p%P%5y:%B%(%G%)\n")
 (setq gnus-summary-line-format "%U%R%z%I%(%[%d: %-23,23f%]%) %s\n")
 
+;; BBDB (address book)
+(use-package bbdb
+  :config
+  (bbdb-initialize 'gnus 'message)
+  (bbdb-mua-auto-update-init 'gnus 'message)
+  (setq bbdb-add-mails t)
+  (setq bbdb-update-records-p t))
+
 
 ;; Misc configuration
 ;; Move save files somewhere else
