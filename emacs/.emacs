@@ -39,27 +39,29 @@
 (add-to-list 'default-frame-alist '(height . 48))
 (add-to-list 'default-frame-alist '(width . 85))
 ;; Try to focus the new frame on creation
-(add-to-list 'after-make-frame-functions 'select-frame-set-input-focus)
+(add-to-list 'after-make-frame-functions #'select-frame-set-input-focus)
 ;; Highlight (some) whitespace
-(require 'whitespace)
-(setq whitespace-style '(face lines-tail trailing))
-(global-whitespace-mode t)
+(use-package whitespace
+  :config
+  (setq whitespace-style '(face lines-tail trailing))
+  (global-whitespace-mode t))
 ;; Theme
 (use-package moe-theme
-  :init
-  (add-hook 'before-make-frame-hook 'moe-dark)
+  :functions (moe-theme-set-color moe-dark)
+  :hook ((before-make-frame . moe-dark))
   :config
   (moe-theme-set-color 'green)
   (moe-dark))
 
 ;; Window navigation
-(global-set-key (kbd "M-o") 'other-window)
+(global-set-key (kbd "M-o") #'other-window)
 
 ;; Ido mode
-(require 'ido)
-(setq ido-enable-flex-matching t)
-(setq ido-everywhere t)
-(ido-mode 1)
+(use-package ido
+  :config
+  (setq ido-enable-flex-matching t)
+  (setq ido-everywhere t)
+  (ido-mode 1))
 
 ;; Indentation
 (setq-default tab-width 4)
@@ -77,55 +79,70 @@
 (setq-default fill-column 79)
 
 ;; Spell-checking
-(require 'ispell)
-(setq ispell-dictionary "en")
-(add-hook 'text-mode-hook 'flyspell-mode)
-(add-hook 'prog-mode-hook 'flyspell-prog-mode)
+(use-package ispell
+  :hook ((text-mode . flyspell-mode)
+         (prog-mode . flyspell-prog-mode))
+  :config
+  (setq ispell-dictionary "en"))
 
 ;; Globally useful packages
 (use-package flycheck
+  :hook ((after-init . global-flycheck-mode))
   :config
-  (global-flycheck-mode))
+  (use-package flycheck-irony
+    :after irony-mode
+    :config
+    (flycheck-irony-setup))
+  (use-package flycheck-rust
+    :after rust-mode
+    :config
+    (flycheck-rust-setup)))
+
 (use-package company
-  :init
-  (add-hook 'after-init-hook 'global-company-mode)
+  :hook ((after-init . global-company-mode))
   :bind
   ("C-<tab>" . company-complete)
   :config
   (setq company-tooltip-limit 20)
-  (setq company-idle-delay .3))
+  (setq company-idle-delay .3)
+  (use-package company-go
+    :after go-mode)
+  (use-package company-irony
+    :after irony-mode
+    :init
+    (add-to-list 'company-backends 'company-irony)))
 
 ;; Org mode
-(require 'org)
-(global-set-key (kbd "C-c l") 'org-store-link)
-(global-set-key (kbd "C-c a") 'org-agenda)
-(setq org-log-done 'time)               ; Log a time stamp for DONE
-(setq org-agenda-files (list
-                        "~/org/personal.org"
-                        "~/org/facets.org"
-                        "~/org/professional.org"))
+(use-package org
+  :bind
+  (("C-c l" . org-store-link)
+   ("C-c a" . org-agenda))
+  :config
+  (setq org-log-done 'time)               ; Log a time stamp for DONE
+  (setq org-agenda-files (list
+                          "~/org/personal.org"
+                          "~/org/facets.org"
+                          "~/org/professional.org")))
 
 ;; General Lisp setup
 (use-package paredit
-  :init
-  (dolist (mode '(lisp-mode-hook
-                  lisp-interaction-mode-hook
-                  emacs-lisp-mode-hook
-                  ielm-mode-hook
-                  eval-expression-minibuffer-setup-hook
-                  scheme-mode-hook
-                  geiser-repl-mode-hook))
-    (add-hook mode 'enable-paredit-mode)))
+  :hook
+  ((lisp-mode
+    lisp-interaction-mode
+    emacs-lisp-mode
+    ielm-mode
+    eval-expression-minibuffer-setup
+    scheme-mode
+    geiser-repl-mode) . enable-paredit-mode))
 (use-package highlight-parentheses
-  :init
-  (dolist (mode '(lisp-mode-hook
-                  lisp-interaction-mode-hook
-                  emacs-lisp-mode-hook
-                  ielm-mode-hook
-                  eval-expression-minibuffer-setup-hook
-                  scheme-mode-hook
-                  geiser-repl-mode-hook))
-    (add-hook mode 'highlight-parentheses-mode)))
+  :hook
+  ((lisp-mode
+    lisp-interaction-mode
+    emacs-lisp-mode
+    ielm-mode
+    eval-expression-minibuffer-setup
+    scheme-mode
+    geiser-repl-mode) . highlight-parentheses-mode))
 
 ;; Emacs Lisp setup
 (defun my-emacs-lisp-setup ()
@@ -135,6 +152,7 @@
 
 ;; Scheme setup
 (use-package geiser
+  :defines geiser-active-implementations
   :config
   (setq geiser-active-implementations '(guile)))
 
@@ -147,28 +165,18 @@
 (add-to-list 'auto-mode-alist '("\\.tpp\\'" . c++-mode))
 
 (use-package irony
-  :init
-  (add-hook 'c-mode-hook 'irony-mode)
-  (add-hook 'c++-mode-hook 'irony-mode)
-  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+  :hook ((c-mode c++-mode) . irony-mode)
   :config
-  (use-package company-irony
-    :init
-    (eval-after-load 'company
-      '(add-to-list 'company-backends 'company-irony)))
-  (use-package flycheck-irony
-    :init
-    (eval-after-load 'flycheck
-      '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))))
+  (add-hook 'irony-mode-hook #'irony-cdb-autosetup-compile-options))
 (use-package clang-format)
 
 ;; Go setup
 (use-package go-mode
+  :functions gofmt-before-save
   :init
-  (add-hook 'before-save-hook 'gofmt-before-save)
+  (add-hook 'before-save-hook #'gofmt-before-save)
   :config
-  (setq gofmt-command "goimports")
-  (use-package company-go))
+  (setq gofmt-command "goimports"))
 
 ;; Markdown setup
 (use-package markdown-mode
@@ -187,10 +195,6 @@
   (add-hook 'rust-mode-hook #'my-rust-setup)
   :config
   (setq rust-format-on-save t)
-  (use-package flycheck-rust
-    :init
-    (eval-after-load 'flycheck
-      '(add-hook 'flycheck-mode-hook #'flycheck-rust-setup)))
   (use-package racer
     :init
     (add-hook 'racer-mode-hook #'eldoc-mode)
@@ -202,72 +206,77 @@
 
 ;; Git setup
 (use-package magit
+  :mode ("COMMIT_EDITMSG" . git-commit-mode)
   :bind ("C-x g" . magit-status))
-(add-to-list 'auto-mode-alist '("COMMIT_EDITMSG" . git-commit-mode))
 (setq vc-follow-symlinks t)             ; disable annoying question
 
 ;; Misc. file formats
 (use-package yaml-mode)
 
 ;; Email setup (gnus)
-(require 'gnus)
-(require 'gnus-group)
-(require 'smtpmail)
-;; Keyboard shortcut to open gnus
-(global-set-key (kbd "C-c g") 'gnus)
-;; Account setup
 (setq user-mail-address "ianprime0509@gmail.com"
       user-full-name "Ian Johnson")
-(setq gnus-select-method
-      '(nnimap "personal"
-               (nnimap-address "imap.gmail.com")
-               (nnimap-server-port "imaps")
-               (nnimap-stream ssl)
-               (nnimap-authinfo-file "~/.authinfo.gpg")))
-(add-to-list 'gnus-secondary-select-methods
-             '(nnimap "professional"
-                      (nnimap-address "imap.gmail.com")
-                      (nnimap-server-port "imaps")
-                      (nnimap-stream ssl)
-                      (nnimap-authinfo-file "~/.authinfo.gpg")))
-(add-to-list 'gnus-secondary-select-methods
-             '(nnimap "uva"
-                      (nnimap-address "imap.gmail.com")
-                      (nnimap-server-port "imaps")
-                      (nnimap-stream ssl)
-                      (nnimap-authinfo-file "~/.authinfo.gpg")))
-(setq send-mail-function 'sendmail-send-it)
-(setq message-send-mail-function 'message-send-mail-with-sendmail)
-(setq sendmail-program "/usr/bin/msmtp")
-(setq-default gnus-permanently-visible-groups ".*")
-;; Parameters
-(setq nnmail-expiry-wait 'immediate
-      nnmail-expiry-target 'delete)
-(setq gnus-auto-expirable-newsgroups ".*")
-;; Set "posting styles" appropriately for each email
-;; Behold my first nontrivial elisp code and marvel at how absolute shit it
-;; looks :)
-(setq gnus-posting-styles
-      (let ((my-emails '("ianprime0509@gmail.com"
-                         "iantimothyjohnson@gmail.com"
-                         "ij6fd@virginia.edu")))
-        (apply 'append
-               (mapcar (lambda (addr)
-                         (mapcar (lambda (str)
-                                   `((header ,str ,addr) (address ,addr)))
-                                 '("to" "cc")))
-                       my-emails))))
-;; Appearance
-(add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
-(setq gnus-group-line-format "%M%S%p%P%5y:%B%(%G%)\n")
-(setq gnus-summary-line-format "%U%R%z%I%(%[%d: %-23,23f%]%) %s\n")
+(use-package sendmail
+  :config
+  (setq send-mail-function 'sendmail-send-it)
+  (setq message-send-mail-function 'message-send-mail-with-sendmail)
+  (setq sendmail-program "/usr/bin/msmtp"))
+(use-package gnus
+  :bind ("C-c g" . gnus)
+  :defines (nnmail-expiry-wait
+            nnmail-expiry-target
+            gnus-posting-styles
+            gnus-group-line-format)
+  :functions gnus-topic-mode
+  :config
+  ;; Account setup
+  (setq gnus-select-method
+        '(nnimap "personal"
+                 (nnimap-address "imap.gmail.com")
+                 (nnimap-server-port "imaps")
+                 (nnimap-stream ssl)
+                 (nnimap-authinfo-file "~/.authinfo.gpg")))
+  (add-to-list 'gnus-secondary-select-methods
+               '(nnimap "professional"
+                        (nnimap-address "imap.gmail.com")
+                        (nnimap-server-port "imaps")
+                        (nnimap-stream ssl)
+                        (nnimap-authinfo-file "~/.authinfo.gpg")))
+  (add-to-list 'gnus-secondary-select-methods
+               '(nnimap "uva"
+                        (nnimap-address "imap.gmail.com")
+                        (nnimap-server-port "imaps")
+                        (nnimap-stream ssl)
+                        (nnimap-authinfo-file "~/.authinfo.gpg")))
+  (setq-default gnus-permanently-visible-groups ".*")
+  ;; Parameters
+  (setq nnmail-expiry-wait 'immediate
+        nnmail-expiry-target 'delete)
+  (setq gnus-auto-expirable-newsgroups ".*")
+  ;; Set "posting styles" appropriately for each email
+  ;; Behold my first nontrivial elisp code and marvel at how absolute shit it
+  ;; looks :)
+  (setq gnus-posting-styles
+        (let ((my-emails '("ianprime0509@gmail.com"
+                           "iantimothyjohnson@gmail.com"
+                           "ij6fd@virginia.edu")))
+          (apply 'append
+                 (mapcar (lambda (addr)
+                           (mapcar (lambda (str)
+                                     `((header ,str ,addr) (address ,addr)))
+                                   '("to" "cc")))
+                         my-emails))))
+  ;; Appearance
+  (add-hook 'gnus-group-mode-hook #'gnus-topic-mode)
+  (setq gnus-group-line-format "%M%S%p%P%5y:%B%(%G%)\n")
+  (setq gnus-summary-line-format "%U%R%z%I%(%[%d: %-23,23f%]%) %s\n"))
 
 ;; BBDB (address book)
 (use-package bbdb
   :config
   (bbdb-initialize 'gnus 'message)
   (bbdb-mua-auto-update-init 'gnus 'message)
-  (setq bbdb-add-mails t)
+  (setq bbdb-add-mails 'query)
   (setq bbdb-update-records-p 'query))
 
 
