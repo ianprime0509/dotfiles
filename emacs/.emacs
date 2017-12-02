@@ -277,7 +277,9 @@
   (bbdb-initialize 'gnus 'message)
   (bbdb-mua-auto-update-init 'gnus 'message)
   (setq bbdb-add-mails 'query)
-  (setq bbdb-update-records-p 'query))
+  (setq bbdb-update-records-p 'query)
+  (setq bbdb-mua-pop-up nil)
+  (add-hook 'bbdb-after-change-hook #'bbdb-save))
 
 
 ;; Misc configuration
