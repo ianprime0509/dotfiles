@@ -37,7 +37,7 @@
 (column-number-mode) ; Show column number in mode line
 ;; Options for new frames
 (add-to-list 'default-frame-alist '(height . 48))
-(add-to-list 'default-frame-alist '(width . 82))
+(add-to-list 'default-frame-alist '(width . 85))
 ;; Try to focus the new frame on creation
 (add-to-list 'after-make-frame-functions 'select-frame-set-input-focus)
 ;; Highlight (some) whitespace
@@ -268,7 +268,7 @@
   (bbdb-initialize 'gnus 'message)
   (bbdb-mua-auto-update-init 'gnus 'message)
   (setq bbdb-add-mails t)
-  (setq bbdb-update-records-p t))
+  (setq bbdb-update-records-p 'query))
 
 
 ;; Misc configuration
