@@ -23,7 +23,7 @@
   (package-install 'use-package))
 
 (use-package use-package
-  :init
+  :config
   (setq use-package-always-ensure t))
 
 ;; Appearance
@@ -53,8 +53,10 @@
   (moe-theme-set-color 'green)
   (moe-dark))
 
-;; Window navigation
+;; Misc. keybindings
+(global-unset-key (kbd "<insert>"))     ; I hate overwrite mode
 (global-set-key (kbd "M-o") #'other-window)
+(global-set-key (kbd "M-i") #'imenu)
 
 ;; Ido mode
 (use-package ido
@@ -87,8 +89,9 @@
 
 ;; Globally useful packages
 (use-package flycheck
-  :hook ((after-init . global-flycheck-mode))
+  :demand
   :config
+  (global-flycheck-mode)
   (use-package flycheck-irony
     :after irony-mode
     :config
@@ -115,6 +118,7 @@
 
 ;; Org mode
 (use-package org
+  :mode "\\.org\\'"
   :bind
   (("C-c l" . org-store-link)
    ("C-c a" . org-agenda))
@@ -150,6 +154,8 @@
   "Custom setup for Emacs Lisp."
   (local-set-key (kbd "C-c C-b") 'eval-buffer))
 (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-setup)
+;; Random useful packages for Elisp programming
+(use-package f)
 
 ;; Scheme setup
 (use-package geiser
@@ -158,9 +164,20 @@
   (setq geiser-active-implementations '(guile)))
 
 ;; C/C++ setup
+(defun my-clang-format-buffer ()
+  "Formats the current buffer with clang-format.
+
+The formatting will only occur if there is a .clang-format file
+somewhere in one of the parent directories of the current
+buffer."
+  (when (f-traverse-upwards
+         (lambda (path)
+           (f-exists? (f-expand ".clang-format" path)))
+         (f-dirname (buffer-file-name)))
+    (clang-format-buffer)))
 (defun my-c-setup ()
   "Custom setup for 'c-mode' and 'c++-mode'."
-  (add-hook 'before-save-hook #'clang-format-buffer nil t))
+  (add-hook 'before-save-hook #'my-clang-format-buffer nil t))
 (add-hook 'c-mode-hook #'my-c-setup)
 (add-hook 'c++-mode-hook #'my-c-setup)
 (add-to-list 'auto-mode-alist '("\\.tpp\\'" . c++-mode))
@@ -172,10 +189,13 @@
 (use-package clang-format)
 
 ;; Go setup
+(defun my-go-setup ()
+  "Custom setup for go-mode."
+  (add-hook 'before-save-hook #'gofmt-before-save nil t))
 (use-package go-mode
-  :functions gofmt-before-save
+  :mode "\\.go\\'"
   :init
-  (add-hook 'before-save-hook #'gofmt-before-save)
+  (add-hook 'go-mode-hook #'my-go-setup)
   :config
   (setq gofmt-command "goimports"))
 
@@ -189,8 +209,8 @@
   "Custom setup for 'rust-mode'."
   (make-local-variable 'whitespace-line-column)
   (setq whitespace-line-column 100))
-
 (use-package rust-mode
+  :mode "\\.rs\\'"
   :init
   (add-hook 'rust-mode-hook #'racer-mode)
   (add-hook 'rust-mode-hook #'my-rust-setup)
@@ -203,16 +223,14 @@
 
 ;; TeX setup
 (use-package tex
-  :ensure auctex)
+  :ensure auctex
+  :mode "\\.tex\\'")
 
 ;; Git setup
 (use-package magit
   :mode ("COMMIT_EDITMSG" . git-commit-mode)
   :bind ("C-x g" . magit-status))
 (setq vc-follow-symlinks t)             ; disable annoying question
-
-;; Misc. file formats
-(use-package yaml-mode)
 
 ;; Email setup (gnus)
 (setq user-mail-address "ianprime0509@gmail.com"
