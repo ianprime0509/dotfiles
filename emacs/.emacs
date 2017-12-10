@@ -99,12 +99,13 @@
     (flycheck-rust-setup)))
 
 (use-package company
-  :hook ((after-init . global-company-mode))
+  :demand
   :bind
   ("C-<tab>" . company-complete)
   :config
   (setq company-tooltip-limit 20)
   (setq company-idle-delay .3)
+  (global-company-mode)
   (use-package company-go
     :after go-mode)
   (use-package company-irony
