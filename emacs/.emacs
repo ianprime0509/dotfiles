@@ -91,15 +91,13 @@
 (use-package flycheck
   :demand
   :config
-  (global-flycheck-mode)
-  (use-package flycheck-irony
-    :after irony-mode
-    :config
-    (flycheck-irony-setup))
-  (use-package flycheck-rust
-    :after rust-mode
-    :config
-    (flycheck-rust-setup)))
+  (global-flycheck-mode))
+(use-package flycheck-irony
+  :after flycheck
+  :hook (irony-mode . flycheck-irony-setup))
+(use-package flycheck-rust
+  :after flycheck
+  :hook (rust-mode . flycheck-rust-setup))
 
 (use-package company
   :demand
@@ -108,17 +106,19 @@
   :config
   (setq company-tooltip-limit 20)
   (setq company-idle-delay .3)
-  (global-company-mode)
-  (use-package company-go
-    :after go-mode)
-  (use-package company-irony
-    :after irony-mode
-    :init
-    (add-to-list 'company-backends 'company-irony)))
+  (global-company-mode))
+(use-package company-go
+  :after company
+  :hook (go-mode . (lambda ()
+                     (add-to-list 'company-backends 'company-go))))
+(use-package company-irony
+  :after company
+  :hook (irony-mode . (lambda ()
+                        (add-to-list 'company-backends 'company-irony))))
 
 ;; Org mode
 (use-package org
-  :mode "\\.org\\'"
+  :mode ("\\.org\\'" . org-mode)
   :bind
   (("C-c l" . org-store-link)
    ("C-c a" . org-agenda))
@@ -186,7 +186,8 @@ buffer."
   :hook ((c-mode c++-mode) . irony-mode)
   :config
   (add-hook 'irony-mode-hook #'irony-cdb-autosetup-compile-options))
-(use-package clang-format)
+(use-package clang-format
+  :commands clang-format-buffer)
 
 ;; Go setup
 (defun my-go-setup ()
@@ -212,19 +213,18 @@ buffer."
 (use-package rust-mode
   :mode "\\.rs\\'"
   :init
-  (add-hook 'rust-mode-hook #'racer-mode)
   (add-hook 'rust-mode-hook #'my-rust-setup)
   :config
-  (setq rust-format-on-save t)
-  (use-package racer
-    :init
-    (add-hook 'racer-mode-hook #'eldoc-mode)
-    (add-hook 'racer-mode-hook #'company-mode)))
+  (setq rust-format-on-save t))
+(use-package racer
+  :hook (rust-mode . racer-mode)
+  :init
+  (add-hook 'racer-mode-hook #'eldoc-mode))
 
 ;; TeX setup
 (use-package tex
   :ensure auctex
-  :mode "\\.tex\\'")
+  :mode ("\\.tex\\'" . tex-mode))
 
 ;; Git setup
 (use-package magit
