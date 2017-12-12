@@ -75,6 +75,18 @@
   (setq-default hungry-delete-chars-to-skip " \t")
   (global-hungry-delete-mode))
 
+;; Dired
+(use-package dired
+  :ensure nil
+  :config
+  (setq dired-listing-switches "-alh"))
+
+;; Shell
+(use-package shell
+  :ensure nil
+  :commands shell
+  :bind ("C-c s" . shell))
+
 ;; Text
 (setq sentence-end-double-space nil) ; Don't use two spaces after period
 (setq mode-require-final-newline t)
@@ -82,10 +94,14 @@
 
 ;; Spell-checking
 (use-package ispell
-  :hook ((text-mode . flyspell-mode)
-         (prog-mode . flyspell-prog-mode))
+  :ensure nil
   :config
   (setq ispell-dictionary "en"))
+(use-package flyspell
+  :ensure nil
+  :after ispell
+  :hook ((text-mode . flyspell-mode)
+         (prog-mode . flyspell-prog-mode)))
 
 ;; Globally useful packages
 (use-package flycheck
@@ -236,11 +252,13 @@ buffer."
 (setq user-mail-address "ianprime0509@gmail.com"
       user-full-name "Ian Johnson")
 (use-package sendmail
+  :ensure nil
   :config
   (setq send-mail-function 'sendmail-send-it)
   (setq message-send-mail-function 'message-send-mail-with-sendmail)
   (setq sendmail-program "/usr/bin/msmtp"))
 (use-package gnus
+  :ensure nil
   :bind ("C-c g" . gnus)
   :defines (nnmail-expiry-wait
             nnmail-expiry-target
