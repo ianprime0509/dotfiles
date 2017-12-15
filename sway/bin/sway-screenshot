@@ -1,0 +1,2 @@
+#!/bin/sh
+exec swaygrab $HOME/screenshots/screenshot-$(date +%F@%T).png

@@ -46,12 +46,10 @@
   (setq whitespace-style '(face lines-tail trailing))
   (global-whitespace-mode t))
 ;; Theme
-(use-package moe-theme
-  :functions (moe-theme-set-color moe-dark)
-  :hook ((before-make-frame . moe-dark))
+(use-package color-theme-solarized
   :config
-  (moe-theme-set-color 'green)
-  (moe-dark))
+  (load-theme 'solarized t)
+  (setq-default frame-background-mode 'dark))
 
 ;; Misc. keybindings
 (global-unset-key (kbd "<insert>"))     ; I hate overwrite mode
@@ -330,6 +328,8 @@ buffer."
    kept-new-versions 6
    kept-old-versions 2
    version-control t)       ; use versioned backups
+;; Don't try to use the clipboard manager, since it causes slowdown
+(setq x-select-enable-clipboard-manager nil)
 
 (provide '.emacs)
 ;;; .emacs ends here
