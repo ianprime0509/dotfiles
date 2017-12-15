@@ -186,7 +186,7 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 ### Appearance
-font Hack Regular 9
+font Monospace 9
 gaps outer 3
 gaps inner 6
 
