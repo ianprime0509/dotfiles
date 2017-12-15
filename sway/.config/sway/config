@@ -185,26 +185,39 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
-#
-# Status Bar:
-#
-# Read `man 5 sway-bar` for more information about this section.
-bar {
-    position top
-    colors {
-        statusline #ffffff
-        background #323232
-        inactive_workspace #32323277 #32323277 #5c5c5c
-    }
-    status_command i3status
-}
-
-# Appearance
+### Appearance
 font Hack Regular 9
 gaps outer 3
 gaps inner 6
 
-# Misc. stuff
+# Colors
+set primary_color #325555
+set primary_trans_color #32555577
+set border_color #327777
+set background_color #323232
+set background_trans_color #32323277
+set inactive_color #111111
+set text_color #eeeeee
+set text_inactive_color #777777
+set text_trans_color #eeeeee77
+
+client.background $background_color
+client.focused $border_color $primary_color $text_color $primay_color $primary_trans_color
+
+### Status Bar
+# Read `man 5 sway-bar` for more information about this section.
+bar {
+    position top
+    colors {
+        statusline $text_color
+        background $background_color
+        focused_workspace $border_color $primary_color $text_color
+        inactive_workspace $background_trans_color $background_trans_color $text_inactive_color
+    }
+    status_command i3status
+}
+
+### Misc. stuff
 focus_follows_mouse no
 
 # Source .Xresources
