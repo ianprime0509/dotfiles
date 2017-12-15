@@ -28,6 +28,7 @@
 
 ;; Appearance
 ;; Interface
+(set-frame-font "Monospace 11" nil t)
 (setq inhibit-startup-screen t)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
