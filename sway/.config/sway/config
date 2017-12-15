@@ -238,6 +238,6 @@ bindsym XF86AudioMute exec pamixer -t
 bindsym $mod+i exec firefox
 bindsym $mod+Shift+i exec firefox --private-window
 bindsym $mod+p exec sway-screenshot
-bindsym $mod+m exec emacsclient -c -a ''
+bindsym $mod+m exec edit
 
 include /etc/sway/config.d/*
