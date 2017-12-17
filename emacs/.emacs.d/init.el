@@ -84,11 +84,29 @@
 (use-package shell
   :ensure nil
   :commands shell
-  :bind ("C-c s" . shell))
+  :bind ("C-c s" . shell)
+  :config
+  ;; From lisp/comint.el in Emacs git as of commit
+  ;; 506270f9c80bf9bd7dad35a2f0aa6f477da6490b, modified to better handle French
+  ;; spaces between punctuation
+  (setq comint-password-prompt-regexp
+        (concat
+         "\\(^ *\\|"
+         (regexp-opt
+          '("Enter" "enter" "Enter same" "enter same" "Enter the" "enter the"
+            "Old" "old" "New" "new" "'s" "login"
+            "Kerberos" "CVS" "UNIX" " SMB" "LDAP" "PEM" "SUDO"
+            "[sudo]" "Repeat" "Bad" "Retype")
+          t)
+         " +\\)"
+         "\\(?:" (regexp-opt password-word-equivalents) "\\|Response\\)"
+         "\\(?:\\(?:, try\\)? *again\\| (empty for no passphrase)\\| (again)\\)?"
+         ;; "[[:alpha:]]" used to be "for", which fails to match non-English.
+         "\\(?: [[:alpha:]]+ .+\\)?[\\s  ]*[:：៖][\\s  ]*\\'")))
 
 ;; Text
 (setq sentence-end-double-space nil) ; Don't use two spaces after period
-(setq mode-require-final-newline t)
+(setq-default require-final-newline t)
 (setq-default fill-column 79)
 
 ;; Spell-checking
@@ -99,8 +117,7 @@
 (use-package flyspell
   :ensure nil
   :after ispell
-  :hook ((text-mode . flyspell-mode)
-         (prog-mode . flyspell-prog-mode)))
+  :hook ((text-mode . flyspell-mode)))
 
 ;; Globally useful packages
 (use-package flycheck
