@@ -9,7 +9,7 @@ instance=wlp2s0
 interval=5
 
 [volume]
-interval=once
+interval=5
 signal=1
 
 [datetime]
