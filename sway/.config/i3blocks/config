@@ -1,6 +1,10 @@
 command=~/bin/blocks/$BLOCK_NAME
 interval=1
 
+[wifi]
+instance=wlp2s0
+interval=5
+
 [volume]
 interval=once
 signal=1

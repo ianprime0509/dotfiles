@@ -7,12 +7,15 @@ VOLUME=$(pamixer --get-volume)
 
 if [ $(pamixer --get-mute) = true ]; then
     echo "🔇 (volume ${VOLUME}%)"
-    echo
-    echo \#FFFF00
+    echo "🔇"
+    echo "#FFFF00"
 elif [ $VOLUME -lt $THRESH_MED ]; then
     echo "🔈 ${VOLUME}%"
+    echo 🔈
 elif [ $VOLUME -lt $THRESH_HIGH ]; then
     echo "🔉 ${VOLUME}%"
+    echo 🔉
 else
     echo "🔊 ${VOLUME}%"
+    echo 🔊
 fi
