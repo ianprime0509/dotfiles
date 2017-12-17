@@ -1,0 +1,8 @@
+command=~/bin/blocks/$BLOCK_NAME
+interval=1
+
+[volume]
+interval=once
+signal=1
+
+[datetime]

@@ -1,0 +1,18 @@
+#!/bin/sh
+# Lowest volume to be considered "medium"
+THRESH_MED=1
+# Lowest volume to be considered "high"
+THRESH_HIGH=20
+VOLUME=$(pamixer --get-volume)
+
+if [ $(pamixer --get-mute) = true ]; then
+    echo "🔇 (volume ${VOLUME}%)"
+    echo
+    echo \#FFFF00
+elif [ $VOLUME -lt $THRESH_MED ]; then
+    echo "🔈 ${VOLUME}%"
+elif [ $VOLUME -lt $THRESH_HIGH ]; then
+    echo "🔉 ${VOLUME}%"
+else
+    echo "🔊 ${VOLUME}%"
+fi

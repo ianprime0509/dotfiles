@@ -194,6 +194,7 @@ gaps inner 6
 set primary_color #325555
 set primary_trans_color #32555577
 set border_color #327777
+set highlight_color #329999
 set background_color #323232
 set background_trans_color #32323277
 set inactive_color #111111
@@ -202,7 +203,7 @@ set text_inactive_color #777777
 set text_trans_color #eeeeee77
 
 client.background $background_color
-client.focused $border_color $primary_color $text_color $primay_color $primary_trans_color
+client.focused $border_color $primary_color $text_color $highlight_color $primary_trans_color
 
 ### Status Bar
 # Read `man 5 sway-bar` for more information about this section.
@@ -214,7 +215,7 @@ bar {
         focused_workspace $border_color $primary_color $text_color
         inactive_workspace $background_trans_color $background_trans_color $text_inactive_color
     }
-    status_command i3status
+    status_command i3blocks
 }
 
 ### Misc. stuff
@@ -230,9 +231,9 @@ bindsym Mod1+KP_End exec light -U 10
 # Alt+Fn+k
 bindsym Mod1+KP_Down exec light -A 10
 # Volume controls
-bindsym XF86AudioRaiseVolume exec pamixer -i 5
-bindsym XF86AudioLowerVolume exec pamixer -d 5
-bindsym XF86AudioMute exec pamixer -t
+bindsym XF86AudioRaiseVolume exec pamixer -i 5 && pkill -RTMIN+1 i3blocks
+bindsym XF86AudioLowerVolume exec pamixer -d 5 && pkill -RTMIN+1 i3blocks
+bindsym XF86AudioMute exec pamixer -t && pkill -RTMIN+1 i3blocks
 
 # Launchers
 bindsym $mod+i exec firefox
