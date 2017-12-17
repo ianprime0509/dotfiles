@@ -1,6 +1,9 @@
 command=~/bin/blocks/$BLOCK_NAME
 interval=1
 
+[battery]
+interval=10
+
 [wifi]
 instance=wlp2s0
 interval=5
