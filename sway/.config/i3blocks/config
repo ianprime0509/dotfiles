@@ -5,7 +5,7 @@ interval=1
 interval=10
 
 [wifi]
-instance=wlp2s0
+instance=wlp0s20u2
 interval=5
 
 [volume]
