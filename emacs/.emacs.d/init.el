@@ -335,6 +335,10 @@ buffer."
   (setq bbdb-mua-pop-up nil)
   (add-hook 'bbdb-after-change-hook #'bbdb-save))
 
+;; Useful applications
+;; Transmission
+(use-package transmission)
+
 
 ;; Misc configuration
 ;; Move save files somewhere else
