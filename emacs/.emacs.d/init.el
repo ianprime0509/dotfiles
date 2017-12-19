@@ -191,9 +191,10 @@
 
 ;; Scheme setup
 (use-package geiser
-  :defines geiser-active-implementations
+  :defines (geiser-active-implementations geiser-guile-load-path)
   :config
-  (setq geiser-active-implementations '(guile)))
+  (setq geiser-active-implementations '(guile))
+  (add-to-list 'geiser-guile-load-path "~/src/guix"))
 
 ;; C/C++ setup
 (defun my-clang-format-buffer ()
