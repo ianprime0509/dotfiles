@@ -279,11 +279,13 @@ buffer."
   :bind ("C-c g" . gnus)
   :defines (nnmail-expiry-wait
             nnmail-expiry-target
+            gnus-save-newsrc-file
             gnus-posting-styles
             gnus-group-line-format)
   :functions gnus-topic-mode
   :config
   ;; Account setup
+  (setq gnus-save-newsrc-file nil)
   (setq gnus-select-method
         '(nnimap "personal"
                  (nnimap-address "imap.gmail.com")
@@ -354,5 +356,5 @@ buffer."
 ;; Don't try to use the clipboard manager, since it causes slowdown
 (setq x-select-enable-clipboard-manager nil)
 
-(provide '.emacs)
-;;; .emacs ends here
+(provide 'init)
+;;; init.el ends here
