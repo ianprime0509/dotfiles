@@ -227,17 +227,17 @@ exec xrdb ~/.Xresources
 ### Keybindings
 
 # Alt+Fn+j
-bindsym Mod1+KP_End exec light -U 10
+bindsym $mod+KP_End exec light -U 10
 # Alt+Fn+k
-bindsym Mod1+KP_Down exec light -A 10
+bindsym $mod+KP_Down exec light -A 10
 # Volume controls
 bindsym XF86AudioRaiseVolume exec pamixer -i 5 && pkill -RTMIN+1 i3blocks
 bindsym XF86AudioLowerVolume exec pamixer -d 5 && pkill -RTMIN+1 i3blocks
 bindsym XF86AudioMute exec pamixer -t && pkill -RTMIN+1 i3blocks
 
 # Launchers
-bindsym $mod+i exec firefox
-bindsym $mod+Shift+i exec firefox --private-window
+bindsym $mod+i exec iceweasel
+bindsym $mod+Shift+i exec iceweasel --private-window
 bindsym $mod+p exec sway-screenshot
 bindsym $mod+m exec edit
 

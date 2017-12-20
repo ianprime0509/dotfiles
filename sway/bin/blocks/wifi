@@ -42,7 +42,7 @@ ESSID=$(iwgetid -r)
 
 #------------------------------------------------------------------------
 
-echo "📶 $QUALITY% @ $ESSID" # full text
+echo "📶 $QUALITY%" # full text
 echo "📶 $QUALITY%" # short text
 
 # color
