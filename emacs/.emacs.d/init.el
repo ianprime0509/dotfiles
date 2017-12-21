@@ -193,8 +193,7 @@
 (use-package geiser
   :defines (geiser-active-implementations geiser-guile-load-path)
   :config
-  (setq geiser-active-implementations '(guile))
-  (add-to-list 'geiser-guile-load-path "~/src/guix"))
+  (setq geiser-active-implementations '(guile)))
 
 ;; C/C++ setup
 (defun my-clang-format-buffer ()
@@ -214,6 +213,10 @@ buffer."
 (add-hook 'c-mode-hook #'my-c-setup)
 (add-hook 'c++-mode-hook #'my-c-setup)
 (add-to-list 'auto-mode-alist '("\\.tpp\\'" . c++-mode))
+
+(use-package ggtags
+  ;; Note: you need ctags and GNU Global installed to use this
+  :hook (c-mode-common . ggtags-mode))
 
 (use-package irony
   :hook ((c-mode c++-mode) . irony-mode)
