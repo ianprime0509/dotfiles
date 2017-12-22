@@ -104,6 +104,13 @@
          ;; "[[:alpha:]]" used to be "for", which fails to match non-English.
          "\\(?: [[:alpha:]]+ .+\\)?[\\s  ]*[:：៖][\\s  ]*\\'")))
 
+;; GnuPG
+(use-package epa
+  :ensure nil
+  :config
+  (setq epa-pinentry-mode 'loopback)
+  (pinentry-start))
+
 ;; Text
 (setq sentence-end-double-space nil) ; Don't use two spaces after period
 (setq-default require-final-newline t)
