@@ -156,7 +156,7 @@ bar {
         focused_workspace $border_color $primary_color $text_color
         inactive_workspace $background_trans_color $background_trans_color $text_inactive_color
     }
-    status_command i3status
+    status_command i3blocks
 }
 
 ### Misc. stuff

@@ -3,9 +3,9 @@
 THRESH_MED=1
 # Lowest volume to be considered "high"
 THRESH_HIGH=20
-VOLUME=$(pamixer --get-volume)
+VOLUME=$(ponymix get-volume)
 
-if [ $(pamixer --get-mute) = true ]; then
+if ponymix is-muted; then
     echo "🔇 (volume ${VOLUME}%)"
     echo "🔇"
     echo "#FFFF00"

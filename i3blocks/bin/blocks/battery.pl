@@ -1,4 +1,3 @@
-#!/usr/bin/perl
 # Slightly modified 2017 by Ian Johnson
 #
 # Copyright 2014 Pierre Mavro <deimos@deimos.fr>
