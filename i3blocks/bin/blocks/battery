@@ -1,2 +1,2 @@
 #!/bin/sh
-exec perl battery.pl
+exec perl /home/ian/bin/blocks/battery.pl
