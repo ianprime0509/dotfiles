@@ -163,13 +163,13 @@ bar {
 focus_follows_mouse no
 
 # Source .Xresources
-exec xrdb ~/.Xresources
+exec_always --no-startup-id xrdb ~/.Xresources
 
 # Background
-exec ~/.fehbg
+exec_always --no-startup-id sh ~/.fehbg
 
 # Keyboard settings
-exec setxkbmap -model pc104 -layout us,us -variant ,intl -option grp:ctrls_toggle,lv3:ralt_switch,caps:ctrl_modifier,esperanto:qwerty,nbsp:level2
+exec_always --no-startup-id setxkbmap -model pc104 -layout us,us -variant ,intl -option grp:ctrls_toggle,lv3:ralt_switch,caps:ctrl_modifier,esperanto:qwerty,nbsp:level2
 
 ### Keybindings
 
@@ -178,9 +178,9 @@ bindsym $mod+KP_End exec light -U 10
 # Alt+Fn+k
 bindsym $mod+KP_Down exec light -A 10
 # Volume controls
-bindsym XF86AudioRaiseVolume exec pamixer -i 5 && pkill -RTMIN+1 i3blocks
-bindsym XF86AudioLowerVolume exec pamixer -d 5 && pkill -RTMIN+1 i3blocks
-bindsym XF86AudioMute exec pamixer -t && pkill -RTMIN+1 i3blocks
+bindsym XF86AudioRaiseVolume exec ponymix increase 5 && pkill -RTMIN+1 i3blocks
+bindsym XF86AudioLowerVolume exec ponymix decrease 5 && pkill -RTMIN+1 i3blocks
+bindsym XF86AudioMute exec ponymix toggle && pkill -RTMIN+1 i3blocks
 
 # Launchers
 bindsym $mod+i exec icecat
