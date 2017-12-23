@@ -112,7 +112,7 @@
   (pinentry-start))
 
 ;; Text
-(setq sentence-end-double-space nil) ; Don't use two spaces after period
+(setq-default sentence-end-double-space t)
 (setq-default require-final-newline t)
 (setq-default fill-column 79)
 
