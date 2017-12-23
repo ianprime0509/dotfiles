@@ -28,7 +28,11 @@
 
 ;; Appearance
 ;; Interface
-(set-frame-font "Monospace 11" nil t)
+;; Fonts
+(set-frame-font "monospace 10" nil t)
+(when (member "Noto Emoji" (font-family-list))
+  (set-fontset-font t 'unicode  "Noto Emoji" nil 'prepend))
+;; Various interface elements
 (setq inhibit-startup-screen t)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
