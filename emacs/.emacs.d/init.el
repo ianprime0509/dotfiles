@@ -39,9 +39,6 @@
 (menu-bar-mode -1)
 (setq initial-scratch-message "")
 (column-number-mode) ; Show column number in mode line
-;; Options for new frames
-(add-to-list 'default-frame-alist '(height . 48))
-(add-to-list 'default-frame-alist '(width . 85))
 ;; Try to focus the new frame on creation
 (add-to-list 'after-make-frame-functions #'select-frame-set-input-focus)
 ;; Highlight (some) whitespace
