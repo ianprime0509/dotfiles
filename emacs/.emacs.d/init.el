@@ -57,6 +57,10 @@
 (global-set-key (kbd "M-o") #'other-window)
 (global-set-key (kbd "M-i") #'imenu)
 
+;; Random file formats
+(use-package meson-mode
+  :mode "\\`meson.build\\'")
+
 ;; Ido mode
 (use-package ido
   :config
