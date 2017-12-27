@@ -38,7 +38,6 @@
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (setq initial-scratch-message "")
-(global-linum-mode) ; Show line numbers on the side
 (column-number-mode) ; Show column number in mode line
 ;; Options for new frames
 (add-to-list 'default-frame-alist '(height . 48))
