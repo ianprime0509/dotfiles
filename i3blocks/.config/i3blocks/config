@@ -1,6 +1,10 @@
 command=~/bin/blocks/$BLOCK_NAME
 interval=1
 
+[backlight]
+interval=once
+signal=2
+
 [battery]
 interval=10
 

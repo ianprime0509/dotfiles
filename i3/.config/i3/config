@@ -174,9 +174,9 @@ exec_always --no-startup-id setxkbmap -model pc104 -layout us,us -variant ,intl 
 ### Keybindings
 
 # Alt+Fn+j
-bindsym $mod+KP_End exec light -U 10
+bindsym $mod+KP_End exec light -U 10 && pkill -RTMIN+2 i3blocks
 # Alt+Fn+k
-bindsym $mod+KP_Down exec light -A 10
+bindsym $mod+KP_Down exec light -A 10 && pkill -RTMIN+2 i3blocks
 # Volume controls
 bindsym XF86AudioRaiseVolume exec ponymix increase 5 && pkill -RTMIN+1 i3blocks
 bindsym XF86AudioLowerVolume exec ponymix decrease 5 && pkill -RTMIN+1 i3blocks
@@ -185,5 +185,5 @@ bindsym XF86AudioMute exec ponymix toggle && pkill -RTMIN+1 i3blocks
 # Launchers
 bindsym $mod+i exec icecat
 bindsym $mod+Shift+i exec icecat --private-window
-bindsym $mod+p exec sway-screenshot
+bindsym $mod+p exec x-screenshot
 bindsym $mod+m exec edit

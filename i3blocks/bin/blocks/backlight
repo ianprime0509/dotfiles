@@ -1,0 +1,2 @@
+#!/bin/sh
+echo "💡 $(echo \($(light -G) + 2.5\) / 5 \* 5 | bc)%"
