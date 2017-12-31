@@ -59,7 +59,7 @@
 
 ;; Random file formats
 (use-package meson-mode
-  :mode "\\`meson.build\\'")
+  :mode "\\`\\(meson.build\\|meson_options.txt\\)\\'")
 
 ;; Ido mode
 (use-package ido
