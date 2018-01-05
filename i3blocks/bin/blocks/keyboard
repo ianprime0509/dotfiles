@@ -1,0 +1,3 @@
+#!/bin/sh
+# A basic keyboard layout indicator block
+echo "$(xkblayout-state print %e)"
