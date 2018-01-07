@@ -29,7 +29,7 @@
 ;; Appearance
 ;; Interface
 ;; Fonts
-(set-frame-font "monospace 10" nil t)
+(set-frame-font "monospace 11" nil t)
 (when (member "Noto Emoji" (font-family-list))
   (set-fontset-font t 'unicode  "Noto Emoji" nil 'prepend))
 ;; Various interface elements
@@ -59,7 +59,9 @@
 
 ;; Random file formats
 (use-package meson-mode
-  :mode "\\`\\(meson.build\\|meson_options.txt\\)\\'")
+  :mode "\\`\\(meson\\.build\\|meson_options\\.txt\\)\\'")
+(use-package yaml-mode
+  :mode "\\.yml\\'")
 
 ;; Ido mode
 (use-package ido
