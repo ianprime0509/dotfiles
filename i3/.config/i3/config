@@ -30,7 +30,7 @@ font pango:monospace 10
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec urxvt
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -183,7 +183,7 @@ bindsym XF86AudioLowerVolume exec ponymix decrease 5 && pkill -RTMIN+1 i3blocks
 bindsym XF86AudioMute exec ponymix toggle && pkill -RTMIN+1 i3blocks
 
 # Launchers
-bindsym $mod+i exec iceweasel
-bindsym $mod+Shift+i exec iceweasel --private-window
+bindsym $mod+i exec firefox
+bindsym $mod+Shift+i exec firefox --private-window
 bindsym $mod+p exec x-screenshot
 bindsym $mod+m exec edit

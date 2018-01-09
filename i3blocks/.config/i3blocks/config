@@ -11,7 +11,7 @@ signal=2
 interval=10
 
 [wifi]
-instance=wlp0s20u2
+instance=wlp2s0
 interval=5
 
 [volume]
