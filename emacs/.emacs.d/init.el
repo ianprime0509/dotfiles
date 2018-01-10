@@ -284,12 +284,34 @@ buffer."
 ;; Email setup (gnus)
 (setq user-mail-address "ianprime0509@gmail.com"
       user-full-name "Ian Johnson")
+(use-package smtpmail-multi
+  :config
+  (setq smtpmail-multi-accounts
+        '((personal . ("ianprime0509@gmail.com"
+                        "smtp.gmail.com"
+                        587
+                        "ianprime0509@gmail.com"
+                        nil nil nil nil))
+          (professional . ("iantimothyjohnson@gmail.com"
+                           "smtp.gmail.com"
+                           587
+                           "iantimothyjohnson@gmail.com"
+                           nil nil nil nil))
+          (uva . ("ij6fd@virginia.edu"
+                  "smtp.gmail.com"
+                  587
+                  "ij6fd@virginia.edu"
+                  nil nil nil nil))))
+  (setq smtpmail-multi-associations
+        '(("ianprime0509@gmail.com" personal)
+          ("iantimothyjohnson@gmail.com" professional)
+          ("ij6fd@virginia.edu" uva)))
+  (setq smtpmail-multi-default-account 'personal))
 (use-package sendmail
   :ensure nil
   :config
-  (setq send-mail-function 'sendmail-send-it)
-  (setq message-send-mail-function 'message-send-mail-with-sendmail)
-  (setq sendmail-program "/usr/bin/msmtp"))
+  (setq send-mail-function 'smtpmail-multi-send-it)
+  (setq message-send-mail-function 'smtpmail-multi-send-it))
 (use-package gnus
   :ensure nil
   :bind ("C-c g" . gnus)
