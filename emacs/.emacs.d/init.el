@@ -1,8 +1,8 @@
-;;; .emacs --- Summary
-;;; My custom Emacs configuration.
+;;; .emacs --- my custom Emacs configuration
 
 ;;; Commentary:
-;;; Nothing to see here!
+
+;;; This is all my custom Emacs setup.
 
 ;;; Code:
 (require 'package)
@@ -26,50 +26,44 @@
   :config
   (setq use-package-always-ensure t))
 
-;; Appearance
-;; Interface
-;; Fonts
+
+;;; Appearance
+;;; Interface
+;;; Fonts
 (set-frame-font "monospace 11" nil t)
 (when (member "Noto Emoji" (font-family-list))
   (set-fontset-font t 'unicode  "Noto Emoji" nil 'prepend))
-;; Various interface elements
+
+;;; Various interface elements
 (setq inhibit-startup-screen t)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (setq initial-scratch-message "")
 (column-number-mode) ; Show column number in mode line
-;; Try to focus the new frame on creation
+
+;;; Try to focus the new frame on creation
 (add-to-list 'after-make-frame-functions #'select-frame-set-input-focus)
-;; Highlight (some) whitespace
+
+;;; Highlight (some) whitespace
 (use-package whitespace
   :config
   (setq whitespace-style '(face lines-tail trailing))
   (global-whitespace-mode t))
-;; Theme
+
+;;; Theme
 (use-package base16-theme
   :config
   (load-theme 'base16-gruvbox-dark-soft t))
 
-;; Misc. keybindings
+
+;;; Editor behavior
+;;; Misc. keybindings
 (global-unset-key (kbd "<insert>"))     ; I hate overwrite mode
 (global-set-key (kbd "M-o") #'other-window)
 (global-set-key (kbd "M-i") #'imenu)
 
-;; Random file formats
-(use-package meson-mode
-  :mode "\\`\\(meson\\.build\\|meson_options\\.txt\\)\\'")
-(use-package yaml-mode
-  :mode "\\.yml\\'")
-
-;; Ido mode
-(use-package ido
-  :config
-  (setq ido-enable-flex-matching t)
-  (setq ido-everywhere t)
-  (ido-mode 1))
-
-;; Indentation
+;;; Indentation
 (setq-default tab-width 4)
 (setq-default indent-tabs-mode nil)
 (setq-default c-basic-offset tab-width)
@@ -79,13 +73,40 @@
   (setq-default hungry-delete-chars-to-skip " \t")
   (global-hungry-delete-mode))
 
-;; Dired
+;;; Ido mode
+(use-package ido
+  :config
+  (setq ido-enable-flex-matching t)
+  (setq ido-everywhere t)
+  (ido-mode 1))
+
+;;; Common editing settings
+(setq-default sentence-end-double-space t)
+(setq-default require-final-newline t)
+(setq-default fill-column 79)
+
+
+;;; Utility modes (e.g. dired, shell)
+;;; Dired
 (use-package dired
   :ensure nil
   :config
   (setq dired-listing-switches "-alh"))
 
-;; Shell
+;;; Git
+(use-package magit
+  :mode ("COMMIT_EDITMSG" . git-commit-mode)
+  :bind ("C-x g" . magit-status))
+(setq vc-follow-symlinks t)             ; disable annoying question
+
+;;; GnuPG
+(use-package epa
+  :ensure nil
+  :config
+  (setq epa-pinentry-mode 'loopback)
+  (pinentry-start))
+
+;;; Shell
 (use-package shell
   :ensure nil
   :commands shell
@@ -109,19 +130,19 @@
          ;; "[[:alpha:]]" used to be "for", which fails to match non-English.
          "\\(?: [[:alpha:]]+ .+\\)?[\\s  ]*[:：៖][\\s  ]*\\'")))
 
-;; GnuPG
-(use-package epa
-  :ensure nil
+
+;;; Utilities
+;;; Auto-complete
+(use-package company
+  :demand
+  :bind
+  ("C-<tab>" . company-complete)
   :config
-  (setq epa-pinentry-mode 'loopback)
-  (pinentry-start))
+  (setq company-tooltip-limit 20)
+  (setq company-idle-delay .3)
+  (global-company-mode))
 
-;; Text
-(setq-default sentence-end-double-space t)
-(setq-default require-final-newline t)
-(setq-default fill-column 79)
-
-;; Spell-checking
+;;; Spell-checking
 (use-package ispell
   :ensure nil
   :config
@@ -131,49 +152,76 @@
   :after ispell
   :hook ((text-mode . flyspell-mode)))
 
-;; Globally useful packages
+;;; Syntax checking
 (use-package flycheck
   :demand
   :config
   (global-flycheck-mode))
+
+;;; Transmission (torrent client)
+(use-package transmission)
+
+
+;;; Major modes for file editing
+
+;;; C/C++
+(defun my-c-setup ()
+  "Custom setup for 'c-mode' and 'c++-mode'."
+  (add-hook 'before-save-hook #'my-clang-format-buffer nil t))
+(add-hook 'c-mode-hook #'my-c-setup)
+(add-hook 'c++-mode-hook #'my-c-setup)
+(add-to-list 'auto-mode-alist '("\\.tpp\\'" . c++-mode))
+
+(use-package irony
+  :hook ((c-mode c++-mode) . irony-mode)
+  :config
+  (add-hook 'irony-mode-hook #'irony-cdb-autosetup-compile-options))
+
 (use-package flycheck-irony
   :after flycheck
   :hook (irony-mode . flycheck-irony-setup))
-(use-package flycheck-rust
-  :after flycheck
-  :hook (rust-mode . flycheck-rust-setup))
-
-(use-package company
-  :demand
-  :bind
-  ("C-<tab>" . company-complete)
-  :config
-  (setq company-tooltip-limit 20)
-  (setq company-idle-delay .3)
-  (global-company-mode))
-(use-package company-go
-  :after company
-  :hook (go-mode . (lambda ()
-                     (add-to-list 'company-backends 'company-go))))
 (use-package company-irony
   :after company
   :hook (irony-mode . (lambda ()
                         (add-to-list 'company-backends 'company-irony))))
 
-;; Org mode
-(use-package org
-  :mode ("\\.org\\'" . org-mode)
-  :bind
-  (("C-c l" . org-store-link)
-   ("C-c a" . org-agenda))
-  :config
-  (setq org-log-done 'time)               ; Log a time stamp for DONE
-  (setq org-agenda-files (list
-                          "~/org/personal.org"
-                          "~/org/facets.org"
-                          "~/org/professional.org")))
+(defun my-clang-format-buffer ()
+  "Formats the current buffer with clang-format.
 
-;; General Lisp setup
+The formatting will only occur if there is a .clang-format file
+somewhere in one of the parent directories of the current
+buffer."
+  (when (f-traverse-upwards
+         (lambda (path)
+           (f-exists? (f-expand ".clang-format" path)))
+         (f-dirname (buffer-file-name)))
+    (clang-format-buffer)))
+
+(use-package clang-format
+  :commands clang-format-buffer)
+
+(use-package ggtags
+  ;; Note: you need ctags and GNU Global installed to use this
+  :hook (c-mode-common . ggtags-mode))
+
+;;; Go
+(defun my-go-setup ()
+  "Custom setup for go-mode."
+  (add-hook 'before-save-hook #'gofmt-before-save nil t))
+
+(use-package go-mode
+  :mode "\\.go\\'"
+  :init
+  (add-hook 'go-mode-hook #'my-go-setup)
+  :config
+  (setq gofmt-command "goimports"))
+
+(use-package company-go
+  :after company
+  :hook (go-mode . (lambda ()
+                     (add-to-list 'company-backends 'company-go))))
+
+;;; Lisp (general)
 (use-package paredit
   :hook
   ((lisp-mode
@@ -193,99 +241,83 @@
     scheme-mode
     geiser-repl-mode) . highlight-parentheses-mode))
 
-;; Emacs Lisp setup
+;;; Lisp (Emacs)
 (defun my-emacs-lisp-setup ()
   "Custom setup for Emacs Lisp."
   (local-set-key (kbd "C-c C-b") 'eval-buffer))
 (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-setup)
-;; Random useful packages for Elisp programming
+;;; Random useful packages for Elisp programming
 (use-package f)
 
-;; Scheme setup
+;; Lisp (Scheme)
 (use-package geiser
   :defines (geiser-active-implementations geiser-guile-load-path)
   :config
   (setq geiser-active-implementations '(guile)))
 
-;; C/C++ setup
-(defun my-clang-format-buffer ()
-  "Formats the current buffer with clang-format.
-
-The formatting will only occur if there is a .clang-format file
-somewhere in one of the parent directories of the current
-buffer."
-  (when (f-traverse-upwards
-         (lambda (path)
-           (f-exists? (f-expand ".clang-format" path)))
-         (f-dirname (buffer-file-name)))
-    (clang-format-buffer)))
-(defun my-c-setup ()
-  "Custom setup for 'c-mode' and 'c++-mode'."
-  (add-hook 'before-save-hook #'my-clang-format-buffer nil t))
-(add-hook 'c-mode-hook #'my-c-setup)
-(add-hook 'c++-mode-hook #'my-c-setup)
-(add-to-list 'auto-mode-alist '("\\.tpp\\'" . c++-mode))
-
-(use-package ggtags
-  ;; Note: you need ctags and GNU Global installed to use this
-  :hook (c-mode-common . ggtags-mode))
-
-(use-package irony
-  :hook ((c-mode c++-mode) . irony-mode)
-  :config
-  (add-hook 'irony-mode-hook #'irony-cdb-autosetup-compile-options))
-(use-package clang-format
-  :commands clang-format-buffer)
-
-;; Go setup
-(defun my-go-setup ()
-  "Custom setup for go-mode."
-  (add-hook 'before-save-hook #'gofmt-before-save nil t))
-(use-package go-mode
-  :mode "\\.go\\'"
-  :init
-  (add-hook 'go-mode-hook #'my-go-setup)
-  :config
-  (setq gofmt-command "goimports"))
-
-;; Markdown setup
+;;; Markdown
 (use-package markdown-mode
   :config
   (setq-default markdown-command "cmark"))
 
-;; Rust setup
+;;; Meson
+(use-package meson-mode
+  :mode "\\`\\(meson\\.build\\|meson_options\\.txt\\)\\'")
+
+;;; Rust
 (defun my-rust-setup ()
   "Custom setup for 'rust-mode'."
   (make-local-variable 'whitespace-line-column)
   (setq whitespace-line-column 100))
+
 (use-package rust-mode
   :mode "\\.rs\\'"
   :init
   (add-hook 'rust-mode-hook #'my-rust-setup)
   :config
   (setq rust-format-on-save t))
+
+(use-package cargo
+  :hook (rust-mode . cargo-minor-mode))
+
+(use-package flycheck-rust
+  :after flycheck
+  :hook (rust-mode . flycheck-rust-setup))
+
 (use-package racer
   :hook (rust-mode . racer-mode)
   :init
   (add-hook 'racer-mode-hook #'eldoc-mode))
-(use-package cargo
-  :hook (rust-mode . cargo-minor-mode))
 
-(use-package toml-mode
-  :mode "\\.toml\\'")
-
-;; TeX setup
+;;; TeX
 (use-package tex
   :ensure auctex
   :mode ("\\.tex\\'" . tex-mode))
 
-;; Git setup
-(use-package magit
-  :mode ("COMMIT_EDITMSG" . git-commit-mode)
-  :bind ("C-x g" . magit-status))
-(setq vc-follow-symlinks t)             ; disable annoying question
+;;; TOML
+(use-package toml-mode
+  :mode "\\.toml\\'")
 
-;; Email setup (gnus)
+;;; Yaml
+(use-package yaml-mode
+  :mode "\\.yml\\'")
+
+
+;;; Org mode
+(use-package org
+  :mode ("\\.org\\'" . org-mode)
+  :bind
+  (("C-c l" . org-store-link)
+   ("C-c a" . org-agenda))
+  :config
+  (setq org-log-done 'time)               ; Log a time stamp for DONE
+  (setq org-agenda-files (list
+                          "~/org/personal.org"
+                          "~/org/facets.org"
+                          "~/org/professional.org")))
+
+
+;;; Gnus (email)
 (setq user-mail-address "ianprime0509@gmail.com"
       user-full-name "Ian Johnson")
 (use-package smtpmail-multi
@@ -369,7 +401,7 @@ buffer."
   (setq gnus-group-line-format "%M%S%p%P%5y:%B%(%G%)\n")
   (setq gnus-summary-line-format "%U%R%z%I%(%[%d: %-23,23f%]%) %s\n"))
 
-;; BBDB (address book)
+;;; BBDB (address book)
 (use-package bbdb
   :config
   (bbdb-initialize 'gnus 'message)
@@ -380,13 +412,9 @@ buffer."
   (setq bbdb-mua-pop-up nil)
   (add-hook 'bbdb-after-change-hook #'bbdb-save))
 
-;; Useful applications
-;; Transmission
-(use-package transmission)
-
-
-;; Misc configuration
-;; Move save files somewhere else
+
+;;; Miscellaneous
+;;; Move save files somewhere else
 (setq
    backup-by-copying t      ; don't clobber symlinks
    backup-directory-alist
@@ -395,7 +423,7 @@ buffer."
    kept-new-versions 6
    kept-old-versions 2
    version-control t)       ; use versioned backups
-;; Don't try to use the clipboard manager, since it causes slowdown
+;;; Don't try to use the clipboard manager, since it causes slowdown
 (setq x-select-enable-clipboard-manager nil)
 
 (provide 'init)
