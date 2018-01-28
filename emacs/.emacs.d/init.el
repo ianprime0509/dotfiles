@@ -47,10 +47,9 @@
   (setq whitespace-style '(face lines-tail trailing))
   (global-whitespace-mode t))
 ;; Theme
-(use-package color-theme-solarized
+(use-package base16-theme
   :config
-  (load-theme 'solarized t)
-  (setq-default frame-background-mode 'dark))
+  (load-theme 'base16-gruvbox-dark-soft t))
 
 ;; Misc. keybindings
 (global-unset-key (kbd "<insert>"))     ; I hate overwrite mode
@@ -269,6 +268,11 @@ buffer."
   :hook (rust-mode . racer-mode)
   :init
   (add-hook 'racer-mode-hook #'eldoc-mode))
+(use-package cargo
+  :hook (rust-mode . cargo-minor-mode))
+
+(use-package toml-mode
+  :mode "\\.toml\\'")
 
 ;; TeX setup
 (use-package tex

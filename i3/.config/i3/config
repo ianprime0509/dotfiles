@@ -132,29 +132,45 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 # Colors
-set $primary_color #325555
-set $primary_trans_color #325555
-set $border_color #327777
-set $highlight_color #329999
-set $background_color #323232
-set $background_trans_color #323232
-set $inactive_color #111111
-set $text_color #eeeeee
-set $text_inactive_color #777777
-set $text_trans_color #eeeeee
+set $base00 #32302f
+set $base01 #3c3836
+set $base02 #504945
+set $base03 #665c54
+set $base04 #bdae93
+set $base05 #d5c4a1
+set $base06 #ebdbb2
+set $base07 #fbf1c7
+set $base08 #fb4934
+set $base09 #fe8019
+set $base0A #fabd2f
+set $base0B #b8bb26
+set $base0C #8ec07c
+set $base0D #83a598
+set $base0E #d3869b
+set $base0F #d65d0e
 
-client.background $background_color
-client.focused $border_color $primary_color $text_color $highlight_color $primary_trans_color
-
+# Property Name         Border  BG      Text    Indicator Child Border
+client.focused          $base05 $base0D $base00 $base0D $base0D
+client.focused_inactive $base01 $base01 $base05 $base03 $base01
+client.unfocused        $base01 $base00 $base05 $base01 $base01
+client.urgent           $base08 $base08 $base00 $base08 $base08
+client.placeholder      $base00 $base00 $base05 $base00 $base00
+client.background       $base07
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
     position top
     colors {
-        statusline $text_color
-        background $background_color
-        focused_workspace $border_color $primary_color $text_color
-        inactive_workspace $background_trans_color $background_trans_color $text_inactive_color
+        background $base00
+        separator  $base01
+        statusline $base04
+
+        # State             Border  BG      Text
+        focused_workspace   $base05 $base0D $base00
+        active_workspace    $base05 $base03 $base00
+        inactive_workspace  $base03 $base01 $base05
+        urgent_workspace    $base08 $base08 $base00
+        binding_mode $base00 $base0A $base00
     }
     status_command i3blocks
 }
