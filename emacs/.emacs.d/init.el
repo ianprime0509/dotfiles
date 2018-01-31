@@ -140,6 +140,7 @@
   :config
   (setq company-tooltip-limit 20)
   (setq company-idle-delay .3)
+  (setq company-tooltip-align-annotations t)
   (global-company-mode))
 
 ;;; Spell-checking
@@ -221,6 +222,26 @@ buffer."
   :hook (go-mode . (lambda ()
                      (add-to-list 'company-backends 'company-go))))
 
+;;; HTML (web-mode)
+(use-package web-mode
+  :mode "\\.html?\\'"
+  :config
+  (setq web-mode-markup-indent-offset 2))
+
+;;; Javascript
+(use-package js2-mode
+  :mode "\\.js\\'"
+  :config
+  (setq js2-mode-show-parse-errors nil)
+  (setq js2-mode-show-strict-warnings nil))
+
+(use-package npm-mode
+  :hook (js2-mode typescript-mode))
+
+;;; JSON
+(use-package json-mode
+  :mode "\\.json\\'")
+
 ;;; Lisp (general)
 (use-package paredit
   :hook
@@ -297,6 +318,16 @@ buffer."
 ;;; TOML
 (use-package toml-mode
   :mode "\\.toml\\'")
+
+;;; Typescript
+(use-package typescript-mode
+  :mode "\\.ts\\'")
+
+(use-package tide
+  :hook (typescript-mode . tide-setup)
+  :config
+  (eldoc-mode)
+  (add-hook 'before-save-hook #'tide-format-before-save))
 
 ;;; Yaml
 (use-package yaml-mode
