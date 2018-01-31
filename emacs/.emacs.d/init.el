@@ -324,6 +324,10 @@ buffer."
   :init
   (add-hook 'racer-mode-hook #'eldoc-mode))
 
+;;; SCSS (SASS)
+(use-package scss-mode
+  :mode "\\.scss\\'")
+
 ;;; TeX
 (use-package tex
   :ensure auctex
