@@ -85,6 +85,20 @@
 (setq-default require-final-newline t)
 (setq-default fill-column 79)
 
+;;; Auto-pair delimiters in programs
+(add-hook 'prog-mode-hook
+          (lambda ()
+            (electric-pair-mode)))
+
+;;; Auto-trim trailing whitespace
+(defvar my-auto-trim-whitespace t
+  "Auto-trim trailing whitespace on save.")
+(make-variable-buffer-local 'my-auto-trim-whitespace)
+(add-hook 'before-save-hook
+          (lambda ()
+            (when my-auto-trim-whitespace
+              (delete-trailing-whitespace))))
+
 
 ;;; Utility modes (e.g. dired, shell)
 ;;; Dired
@@ -323,11 +337,15 @@ buffer."
 (use-package typescript-mode
   :mode "\\.ts\\'")
 
+(defun my-tide-setup ()
+  "Custom setup for tide."
+  (add-hook 'before-save-hook #'tide-format-before-save nil t))
+
 (use-package tide
   :hook (typescript-mode . tide-setup)
   :config
-  (eldoc-mode)
-  (add-hook 'before-save-hook #'tide-format-before-save))
+  (add-hook 'tide-mode-hook #'my-tide-setup)
+  (eldoc-mode))
 
 ;;; Yaml
 (use-package yaml-mode
