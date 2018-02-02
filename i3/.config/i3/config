@@ -201,5 +201,6 @@ bindsym XF86AudioMute exec ponymix toggle && pkill -RTMIN+1 i3blocks
 # Launchers
 bindsym $mod+i exec firefox
 bindsym $mod+Shift+i exec firefox --private-window
-bindsym $mod+p exec x-screenshot
+bindsym $mod+p exec x-screenshot          # entire screen
+bindsym $mod+Shift+p exec x-screenshot -u # current window
 bindsym $mod+m exec edit
