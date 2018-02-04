@@ -49,7 +49,7 @@
 (use-package whitespace
   :config
   (setq whitespace-style '(face lines-tail trailing))
-  (global-whitespace-mode t))
+  (global-whitespace-mode))
 
 ;;; Theme
 (use-package base16-theme
@@ -88,7 +88,7 @@
 ;;; Auto-pair delimiters in programs
 (add-hook 'prog-mode-hook
           (lambda ()
-            (electric-pair-mode)))
+            (electric-pair-local-mode)))
 
 ;;; Auto-trim trailing whitespace
 (defvar my-auto-trim-whitespace t
@@ -219,6 +219,13 @@ buffer."
   ;; Note: you need ctags and GNU Global installed to use this
   :hook (c-mode-common . ggtags-mode))
 
+;;; CSS
+(use-package css-mode
+  :ensure nil
+  :mode "\\.css\\'"
+  :config
+  (setq-default css-indent-offset 2))
+
 ;;; Go
 (defun my-go-setup ()
   "Custom setup for go-mode."
@@ -238,16 +245,22 @@ buffer."
 
 ;;; HTML (web-mode)
 (use-package web-mode
-  :mode "\\.html?\\'"
+  :mode "\\.\\(?:html?\\|hbs\\)\\'"
   :config
+  (setq web-mode-auto-close-style 1)
   (setq web-mode-markup-indent-offset 2))
 
 ;;; Javascript
 (use-package js2-mode
-  :mode "\\.js\\'"
   :config
   (setq js2-mode-show-parse-errors nil)
-  (setq js2-mode-show-strict-warnings nil))
+  (setq js2-mode-show-strict-warnings nil)
+  (add-hook 'js2-mode-hook #'tide-setup)
+  (setq-default js2-basic-offset 2))
+
+(use-package rjsx-mode
+  :after js2-mode
+  :mode "\\.jsx?\\'")
 
 (use-package npm-mode
   :hook (js2-mode typescript-mode))
@@ -339,17 +352,21 @@ buffer."
 
 ;;; Typescript
 (use-package typescript-mode
-  :mode "\\.ts\\'")
+  :mode "\\.tsx?\\'"
+  :config
+  (setq-default typescript-indent-level 2))
 
 (defun my-tide-setup ()
   "Custom setup for tide."
-  (add-hook 'before-save-hook #'tide-format-before-save nil t))
+  (add-hook 'before-save-hook #'tide-format-before-save nil t)
+  (eldoc-mode)
+  (flycheck-add-next-checker 'javascript-eslint 'javascript-tide 'append)
+  (flycheck-add-next-checker 'javascript-eslint 'jsx-tide 'append))
 
 (use-package tide
   :hook (typescript-mode . tide-setup)
   :config
-  (add-hook 'tide-mode-hook #'my-tide-setup)
-  (eldoc-mode))
+  (add-hook 'tide-mode-hook #'my-tide-setup))
 
 ;;; Yaml
 (use-package yaml-mode
