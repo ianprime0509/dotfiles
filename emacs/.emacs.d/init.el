@@ -126,6 +126,7 @@
   :commands shell
   :bind ("C-c s" . shell)
   :config
+  (add-hook 'shell-mode-hook #'ansi-color-for-comint-mode-on)
   ;; From lisp/comint.el in Emacs git as of commit
   ;; 506270f9c80bf9bd7dad35a2f0aa6f477da6490b, modified to better handle French
   ;; spaces between punctuation
