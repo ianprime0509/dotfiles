@@ -263,7 +263,6 @@ buffer."
   :config
   (setq js2-mode-show-parse-errors nil)
   (setq js2-mode-show-strict-warnings nil)
-  (add-hook 'js2-mode-hook #'tide-setup)
   (setq-default js2-basic-offset 2))
 
 (use-package rjsx-mode
@@ -274,6 +273,9 @@ buffer."
   :hook (rjsx-mode . lsp-javascript-typescript-enable))
 
 (use-package npm-mode)
+
+(use-package prettier-js
+  :hook ((js2-mode json-mode) . prettier-js-mode))
 
 ;;; JSON
 (use-package json-mode
