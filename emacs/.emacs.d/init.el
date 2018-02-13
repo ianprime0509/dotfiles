@@ -158,6 +158,13 @@
   (setq company-tooltip-align-annotations t)
   (global-company-mode))
 
+;;; Language server protocol (for several modes)
+(use-package lsp-mode)
+(use-package company-lsp
+  :after (company lsp-mode)
+  :config
+  (add-to-list 'company-backends 'company-lsp))
+
 ;;; Spell-checking
 (use-package ispell
   :ensure nil
@@ -263,8 +270,10 @@ buffer."
   :after js2-mode
   :mode "\\.jsx?\\'")
 
-(use-package npm-mode
-  :hook (js2-mode typescript-mode))
+(use-package lsp-javascript-typescript
+  :hook (rjsx-mode . lsp-javascript-typescript-enable))
+
+(use-package npm-mode)
 
 ;;; JSON
 (use-package json-mode
@@ -360,9 +369,7 @@ buffer."
 (defun my-tide-setup ()
   "Custom setup for tide."
   (add-hook 'before-save-hook #'tide-format-before-save nil t)
-  (eldoc-mode)
-  (flycheck-add-next-checker 'javascript-eslint 'javascript-tide 'append)
-  (flycheck-add-next-checker 'javascript-eslint 'jsx-tide 'append))
+  (eldoc-mode))
 
 (use-package tide
   :hook (typescript-mode . tide-setup)
