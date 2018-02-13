@@ -46,9 +46,17 @@
 (add-to-list 'after-make-frame-functions #'select-frame-set-input-focus)
 
 ;;; Highlight (some) whitespace
+(defun prevent-whitespace-mode-for-magit ()
+  ;; From https://emacs.stackexchange.com/a/38778
+  "Prevent whitespace mode from interfering with Magit."
+  (not (derived-mode-p 'magit-mode)))
+
 (use-package whitespace
   :config
   (setq whitespace-style '(face lines-tail trailing))
+  (add-function
+   :before-while whitespace-enable-predicate
+   #'prevent-whitespace-mode-for-magit)
   (global-whitespace-mode))
 
 ;;; Theme
