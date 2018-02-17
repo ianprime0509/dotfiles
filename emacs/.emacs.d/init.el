@@ -84,6 +84,7 @@
 ;;; Ido mode
 (use-package ido
   :config
+  (setq ido-auto-merge-work-directories-length -1)
   (setq ido-enable-flex-matching t)
   (setq ido-everywhere t)
   (ido-mode 1))
