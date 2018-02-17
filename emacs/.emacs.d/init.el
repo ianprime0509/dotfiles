@@ -166,13 +166,6 @@
   (setq company-tooltip-align-annotations t)
   (global-company-mode))
 
-;;; Language server protocol (for several modes)
-(use-package lsp-mode)
-(use-package company-lsp
-  :after (company lsp-mode)
-  :config
-  (add-to-list 'company-backends 'company-lsp))
-
 ;;; Spell-checking
 (use-package ispell
   :ensure nil
@@ -267,8 +260,25 @@ buffer."
   (setq web-mode-markup-indent-offset 2))
 
 ;;; Javascript
+(defun my-javascript-setup ()
+  "Custom setup for JavaScript."
+  (my-use-eslint-from-node-modules))
+
+(defun my-use-eslint-from-node-modules ()
+  ;; From https://emacs.stackexchange.com/a/21207
+  "Tell Flycheck to use local eslint if installed."
+  (let* ((root (locate-dominating-file
+                (or (buffer-file-name) default-directory)
+                "node_modules"))
+         (eslint (and root
+                      (expand-file-name "node_modules/eslint/bin/eslint.js"
+                                        root))))
+    (when (and eslint (file-executable-p eslint))
+      (setq-local flycheck-javascript-eslint-executable eslint))))
+
 (use-package js2-mode
   :config
+  (add-hook 'js2-mode-hook #'my-javascript-setup)
   (setq js2-mode-show-parse-errors nil)
   (setq js2-mode-show-strict-warnings nil)
   (setq-default js2-basic-offset 2))
@@ -277,13 +287,10 @@ buffer."
   :after js2-mode
   :mode "\\.jsx?\\'")
 
-(use-package lsp-javascript-typescript
-  :hook (rjsx-mode . lsp-javascript-typescript-enable))
-
 (use-package npm-mode)
 
 (use-package prettier-js
-  :hook ((js2-mode json-mode) . prettier-js-mode))
+  :hook ((css-mode js2-mode json-mode) . prettier-js-mode))
 
 ;;; JSON
 (use-package json-mode
@@ -382,7 +389,7 @@ buffer."
   (eldoc-mode))
 
 (use-package tide
-  :hook (typescript-mode . tide-setup)
+  :hook ((typescript-mode js2-mode) . tide-setup)
   :config
   (add-hook 'tide-mode-hook #'my-tide-setup))
 
