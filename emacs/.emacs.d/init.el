@@ -261,25 +261,11 @@ buffer."
   (setq web-mode-markup-indent-offset 2))
 
 ;;; Javascript
-(defun my-javascript-setup ()
-  "Custom setup for JavaScript."
-  (my-use-eslint-from-node-modules))
-
-(defun my-use-eslint-from-node-modules ()
-  ;; From https://emacs.stackexchange.com/a/21207
-  "Tell Flycheck to use local eslint if installed."
-  (let* ((root (locate-dominating-file
-                (or (buffer-file-name) default-directory)
-                "node_modules"))
-         (eslint (and root
-                      (expand-file-name "node_modules/eslint/bin/eslint.js"
-                                        root))))
-    (when (and eslint (file-executable-p eslint))
-      (setq-local flycheck-javascript-eslint-executable eslint))))
+(use-package add-node-modules-path
+  :hook (js2-mode . add-node-modules-path))
 
 (use-package js2-mode
   :config
-  (add-hook 'js2-mode-hook #'my-javascript-setup)
   (setq js2-mode-show-parse-errors nil)
   (setq js2-mode-show-strict-warnings nil)
   (setq-default js2-basic-offset 2))
