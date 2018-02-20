@@ -121,6 +121,11 @@
   :mode ("COMMIT_EDITMSG" . git-commit-mode)
   :bind ("C-x g" . magit-status))
 (setq vc-follow-symlinks t)             ; disable annoying question
+(setq vc-ignore-dir-regexp
+      ;; From the Emacs tramp FAQ; disables version control in tramp buffers
+      (format "\\(%s\\)\\|\\(%s\\)"
+              vc-ignore-dir-regexp
+              tramp-file-name-regexp))
 
 ;;; GnuPG
 (use-package epa
