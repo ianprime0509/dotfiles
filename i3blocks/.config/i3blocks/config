@@ -1,6 +1,8 @@
 command=~/bin/blocks/$BLOCK_NAME
 interval=1
 
+[music]
+
 [keyboard]
 
 [backlight]

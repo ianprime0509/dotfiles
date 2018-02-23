@@ -1,0 +1,5 @@
+#!/bin/sh
+STATUS=$(mpc -f '[[%artist% - ]%title%]|[%file]' current)
+echo "🎵 $STATUS"
+echo
+echo
