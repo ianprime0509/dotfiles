@@ -267,7 +267,7 @@ buffer."
 
 ;;; Javascript
 (use-package add-node-modules-path
-  :hook (js2-mode . add-node-modules-path))
+  :hook ((css-mode js2-mode json-mode) . add-node-modules-path))
 
 (use-package js2-mode
   :config
