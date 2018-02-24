@@ -208,6 +208,10 @@ bindsym $mod+KP_Down exec light -A 10 && pkill -RTMIN+2 i3blocks
 bindsym XF86AudioRaiseVolume exec ponymix increase 5 && pkill -RTMIN+1 i3blocks
 bindsym XF86AudioLowerVolume exec ponymix decrease 5 && pkill -RTMIN+1 i3blocks
 bindsym XF86AudioMute exec ponymix toggle && pkill -RTMIN+1 i3blocks
+# Media keys
+bindsym XF86AudioPlay exec mpc toggle
+bindsym XF86AudioPrev exec mpc prev
+bindsym XF86AudioNext exec mpc next
 
 # Launchers
 bindsym $mod+i exec firefox
