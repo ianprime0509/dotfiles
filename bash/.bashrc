@@ -26,3 +26,7 @@ fi
 alias ls='ls -p --color'
 alias ll='ls -l'
 alias grep='grep --color'
+
+# The 'edit' program is a simple script (defined in 'dotfiles/emacs/bin/edit')
+# that just launches emacsclient with some sensible flags.
+export EDITOR='edit'

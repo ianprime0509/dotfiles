@@ -17,6 +17,9 @@
 (when (file-exists-p custom-file)
   (load custom-file))
 
+;; Manually-installed packages
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+
 ;; Make sure use-package is installed
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -72,9 +75,9 @@
 (global-set-key (kbd "M-i") #'imenu)
 
 ;;; Indentation
-(setq-default tab-width 4)
+(setq-default tab-width 8)
 (setq-default indent-tabs-mode nil)
-(setq-default c-basic-offset tab-width)
+(setq-default c-basic-offset 4)
 (setq-default backward-delete-char-untabify-method 'hungry) ; Delete entire tabs
 (use-package hungry-delete
   :config
@@ -233,6 +236,12 @@ buffer."
 (use-package ggtags
   ;; Note: you need ctags and GNU Global installed to use this
   :hook (c-mode-common . ggtags-mode))
+
+;;; Chip-8/Super-Chip assembly
+(load "chip8-mode")
+(use-package chip8-mode
+  :ensure nil
+  :mode "\\.c8\\'")
 
 ;;; CSS
 (use-package css-mode
@@ -435,6 +444,12 @@ buffer."
   :config
   (setq send-mail-function 'smtpmail-multi-send-it)
   (setq message-send-mail-function 'smtpmail-multi-send-it))
+(use-package message
+  :ensure nil
+  :config
+  (add-hook 'message-mode-hook
+            (lambda ()
+              (setq fill-column 72))))
 (use-package gnus
   :ensure nil
   :bind ("C-c g" . gnus)
