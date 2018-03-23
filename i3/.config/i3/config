@@ -196,7 +196,7 @@ exec_always --no-startup-id xrdb ~/.Xresources
 exec_always --no-startup-id sh ~/.fehbg
 
 # Keyboard settings
-exec_always --no-startup-id setxkbmap -model pc104 -layout us,us -variant ,intl -option grp:ctrls_toggle,lv3:ralt_switch,caps:ctrl_modifier,esperanto:qwerty,nbsp:level2
+exec_always --no-startup-id setxkbmap -model pc104 -layout us,us -variant ,intl -option grp:ctrls_toggle,lv3:ralt_switch,caps:escape,esperanto:qwerty,nbsp:level2
 
 ### Keybindings
 
