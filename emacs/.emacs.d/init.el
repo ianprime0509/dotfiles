@@ -65,7 +65,7 @@
 ;;; Theme
 (use-package base16-theme
   :config
-  (load-theme 'base16-gruvbox-dark-soft t))
+  (load-theme 'base16-default-dark t))
 
 
 ;;; Editor behavior
@@ -102,10 +102,6 @@ minibuffer."
 (setq-default indent-tabs-mode nil)
 (setq-default c-basic-offset 4)
 (setq-default backward-delete-char-untabify-method 'hungry) ; Delete entire tabs
-(use-package hungry-delete
-  :config
-  (setq-default hungry-delete-chars-to-skip " \t")
-  (global-hungry-delete-mode))
 
 ;;; Ido mode
 (use-package ido
@@ -119,11 +115,6 @@ minibuffer."
 (setq-default sentence-end-double-space t)
 (setq-default require-final-newline t)
 (setq-default fill-column 79)
-
-;;; Auto-pair delimiters in programs
-(add-hook 'prog-mode-hook
-          (lambda ()
-            (electric-pair-local-mode)))
 
 ;;; Auto-trim trailing whitespace
 (defvar my-auto-trim-whitespace t

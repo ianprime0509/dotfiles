@@ -23,4 +23,6 @@ if [ -f "$usermodmap" ]; then
     xmodmap "$usermodmap"
 fi
 
-exec i3
+setxkbmap -model pc104 -layout us,us -variant ,intl -option grp:ctrls_toggle,lv3:ralt_switch,caps:escape,esperanto:qwerty,nbsp:level2
+
+exec dwm
