@@ -1,0 +1,9 @@
+set folder = ~/mail
+set mbox_type = Maildir
+set realname = "Ian Johnson"
+set spoolfile = "+personal/Inbox"
+
+# source ~/.mutt/primary
+
+folder-hook personal/* source ~/.mutt/accounts/personal
+folder-hook professional/* source ~/.mutt/accounts/professional

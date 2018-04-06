@@ -1,0 +1,75 @@
+# Personal account
+IMAPAccount personal
+Host imap.gmail.com
+User ianprime0509@gmail.com
+PassCmd "pass gmail-app-passwords/personal"
+SSLType IMAPS
+
+IMAPStore personal-remote
+Account personal
+
+MaildirStore personal-local
+Path ~/mail/personal/
+Inbox ~/mail/personal/Inbox
+
+Channel sync-personal
+Master :personal-remote:
+Slave :personal-local:
+Patterns "INBOX"
+Create Both
+SyncState *
+
+Channel sync-personal-sent
+Master :personal-remote:"[Gmail]/Sent Mail"
+Slave :personal-local:Sent
+Create Both
+SyncState *
+
+Channel sync-personal-drafts
+Master :personal-remote:"[Gmail]/Drafts"
+Slave :personal-local:Drafts
+Create Both
+SyncState *
+
+Group personal
+Channel sync-personal
+Channel sync-personal-sent
+Channel sync-personal-drafts
+
+# Professional account
+IMAPAccount professional
+Host imap.gmail.com
+User iantimothyjohnson@gmail.com
+PassCmd "pass gmail-app-passwords/professional"
+SSLType IMAPS
+
+IMAPStore professional-remote
+Account professional
+
+MaildirStore professional-local
+Path ~/mail/professional/
+Inbox ~/mail/professional/Inbox
+
+Channel sync-professional
+Master :professional-remote:
+Slave :professional-local:
+Patterns "INBOX"
+Create Both
+SyncState *
+
+Channel sync-professional-sent
+Master :professional-remote:"[Gmail]/Sent Mail"
+Slave :professional-local:Sent
+Create Both
+SyncState *
+
+Channel sync-professional-drafts
+Master :professional-remote:"[Gmail]/Drafts"
+Slave :professional-local:Drafts
+Create Both
+SyncState *
+
+Group professional
+Channel sync-professional
+Channel sync-professional-sent
+Channel sync-professional-drafts

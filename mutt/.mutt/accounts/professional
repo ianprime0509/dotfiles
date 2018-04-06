@@ -1,0 +1,5 @@
+set from = "iantimothyjohnson@gmail.com"
+set sendmail = "/usr/bin/msmtp -a professional"
+set postponed = "+professional/Drafts"
+
+color status red default
