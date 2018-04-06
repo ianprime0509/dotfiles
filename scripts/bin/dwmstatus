@@ -1,0 +1,14 @@
+#!/bin/sh
+# My dwm status.
+
+while sleep 1; do
+	TIME=`date '+%F %T'`
+	VOLUME_PERCENT=`ponymix get-volume`
+	if ponymix is-muted; then
+		VOLUME="Audio muted (${VOLUME_PERCENT}%)"
+	else
+		VOLUME="Volume ${VOLUME_PERCENT}%"
+	fi
+
+	xsetroot -name "${VOLUME} | ${TIME}"
+done
