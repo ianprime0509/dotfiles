@@ -36,6 +36,44 @@ Channel sync-personal
 Channel sync-personal-sent
 Channel sync-personal-drafts
 
+# UVA email account
+IMAPAccount uva
+Host imap.gmail.com
+User ij6fd@virginia.edu
+PassCmd "pass gmail-app-passwords/uva"
+SSLType IMAPS
+
+IMAPStore uva-remote
+Account uva
+
+MaildirStore uva-local
+Path ~/mail/uva/
+Inbox ~/mail/uva/Inbox
+
+Channel sync-uva
+Master :uva-remote:
+Slave :uva-local:
+Patterns "INBOX"
+Create Slave
+SyncState *
+
+Channel sync-uva-sent
+Master :uva-remote:"[Gmail]/Sent Mail"
+Slave :uva-local:Sent
+Create Slave
+SyncState *
+
+Channel sync-uva-drafts
+Master :uva-remote:"[Gmail]/Drafts"
+Slave :uva-local:Drafts
+Create Slave
+SyncState *
+
+Group uva
+Channel sync-uva
+Channel sync-uva-sent
+Channel sync-uva-drafts
+
 # Professional account
 IMAPAccount professional
 Host imap.gmail.com

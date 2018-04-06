@@ -3,7 +3,8 @@ set mbox_type = Maildir
 set realname = "Ian Johnson"
 set spoolfile = "+personal/Inbox"
 
-# source ~/.mutt/primary
+source ~/.mutt/accounts/personal
 
 folder-hook personal/* source ~/.mutt/accounts/personal
+folder-hook uva/* source ~/.mutt/accounts/uva
 folder-hook professional/* source ~/.mutt/accounts/professional

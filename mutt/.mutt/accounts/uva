@@ -1,0 +1,5 @@
+set from = "ij6fd@virginia.edu"
+set sendmail = "/usr/bin/msmtp -a uva"
+set postponed = "+uva/Drafts"
+
+color status blue white

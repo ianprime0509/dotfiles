@@ -16,19 +16,10 @@ then
     return
 fi
 
-# Adjust the prompt depending on whether we're in 'guix environment'.
-if [ -n "$GUIX_ENVIRONMENT" ]
-then
-    PS1='\u@\h \w [env]\$ '
-else
-    PS1='\u@\h \w\$ '
-fi
 alias ls='ls -p --color'
 alias ll='ls -l'
 alias grep='grep --color'
 
-# The 'edit' program is a simple script (defined in 'dotfiles/emacs/bin/edit')
-# that just launches emacsclient with some sensible flags.
-export EDITOR='edit'
+export EDITOR='vim'
 
 export GPG_TTY=`tty`
