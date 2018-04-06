@@ -16,19 +16,19 @@ Channel sync-personal
 Master :personal-remote:
 Slave :personal-local:
 Patterns "INBOX"
-Create Both
+Create Slave
 SyncState *
 
 Channel sync-personal-sent
 Master :personal-remote:"[Gmail]/Sent Mail"
 Slave :personal-local:Sent
-Create Both
+Create Slave
 SyncState *
 
 Channel sync-personal-drafts
 Master :personal-remote:"[Gmail]/Drafts"
 Slave :personal-local:Drafts
-Create Both
+Create Slave
 SyncState *
 
 Group personal
@@ -54,19 +54,19 @@ Channel sync-professional
 Master :professional-remote:
 Slave :professional-local:
 Patterns "INBOX"
-Create Both
+Create Slave
 SyncState *
 
 Channel sync-professional-sent
 Master :professional-remote:"[Gmail]/Sent Mail"
 Slave :professional-local:Sent
-Create Both
+Create Slave
 SyncState *
 
 Channel sync-professional-drafts
 Master :professional-remote:"[Gmail]/Drafts"
 Slave :professional-local:Drafts
-Create Both
+Create Slave
 SyncState *
 
 Group professional
