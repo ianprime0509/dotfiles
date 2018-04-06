@@ -7,3 +7,6 @@
 [submodule "vim/.vim/pack/git-plugins/start/vim-gnupg"]
 	path = vim/.vim/pack/git-plugins/start/vim-gnupg
 	url = https://github.com/jamessan/vim-gnupg.git
+[submodule "vim/.vim/pack/git-plugins/start/vim-localvimrc"]
+	path = vim/.vim/pack/git-plugins/start/vim-localvimrc
+	url = https://github.com/embear/vim-localvimrc.git

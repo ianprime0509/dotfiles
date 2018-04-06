@@ -18,6 +18,3 @@ set colorcolumn=79
 augroup filetypedetect
 	autocmd BufRead,BufNewFile *mutt-* setfiletype mail
 augroup end
-
-" Load .vimrc files in directories.
-set secure exrc
