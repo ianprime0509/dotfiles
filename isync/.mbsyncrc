@@ -18,18 +18,21 @@ Slave :personal-local:
 Patterns "INBOX"
 Create Slave
 SyncState *
+Expunge Both
 
 Channel sync-personal-sent
 Master :personal-remote:"[Gmail]/Sent Mail"
 Slave :personal-local:Sent
 Create Slave
 SyncState *
+Expunge Both
 
 Channel sync-personal-drafts
 Master :personal-remote:"[Gmail]/Drafts"
 Slave :personal-local:Drafts
 Create Slave
 SyncState *
+Expunge Both
 
 Group personal
 Channel sync-personal
@@ -56,18 +59,21 @@ Slave :uva-local:
 Patterns "INBOX"
 Create Slave
 SyncState *
+Expunge Both
 
 Channel sync-uva-sent
 Master :uva-remote:"[Gmail]/Sent Mail"
 Slave :uva-local:Sent
 Create Slave
 SyncState *
+Expunge Both
 
 Channel sync-uva-drafts
 Master :uva-remote:"[Gmail]/Drafts"
 Slave :uva-local:Drafts
 Create Slave
 SyncState *
+Expunge Both
 
 Group uva
 Channel sync-uva
@@ -94,18 +100,21 @@ Slave :professional-local:
 Patterns "INBOX"
 Create Slave
 SyncState *
+Expunge Both
 
 Channel sync-professional-sent
 Master :professional-remote:"[Gmail]/Sent Mail"
 Slave :professional-local:Sent
 Create Slave
 SyncState *
+Expunge Both
 
 Channel sync-professional-drafts
 Master :professional-remote:"[Gmail]/Drafts"
 Slave :professional-local:Drafts
 Create Slave
 SyncState *
+Expunge Both
 
 Group professional
 Channel sync-professional
