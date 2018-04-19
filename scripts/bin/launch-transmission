@@ -1,2 +1,0 @@
-#!/bin/sh
-exec transmission-daemon -c ~/torrents/ -w ~/torrents/

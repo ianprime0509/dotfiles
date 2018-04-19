@@ -1,2 +1,0 @@
-#!/bin/sh
-exec scrot "$@" "$HOME/screenshots/screenshot-%F@%T.png"
