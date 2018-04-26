@@ -10,7 +10,7 @@ while true; do
 		VOLUME="Volume ${VOLUME_PERCENT}%"
 	fi
 	KEYBOARD="Keyboard `xkblayout-state print %e`"
-	BATTERY_LEVEL=`acpi -b | awk '{print $NF}'`
+	BATTERY_LEVEL=`acpi -b | sed 's/^.* \([0-9]\+%\).*$/\1/'`
 	BATTERY="Battery ${BATTERY_LEVEL}"
 
 	xsetroot -name "${BATTERY} | ${KEYBOARD} | ${VOLUME} | ${TIME}"
