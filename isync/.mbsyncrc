@@ -116,7 +116,15 @@ Create Slave
 SyncState *
 Expunge Both
 
+Channel sync-professional-spam
+Master :professional-remote:"[Gmail]/Spam"
+Slave :professional-local:Spam
+Create Slave
+SyncState *
+Expunge Both
+
 Group professional
 Channel sync-professional
 Channel sync-professional-sent
 Channel sync-professional-drafts
+Channel sync-professional-spam
