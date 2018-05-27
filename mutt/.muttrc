@@ -8,3 +8,9 @@ source ~/.mutt/accounts/personal
 folder-hook personal/* source ~/.mutt/accounts/personal
 folder-hook uva/* source ~/.mutt/accounts/uva
 folder-hook professional/* source ~/.mutt/accounts/professional
+
+macro index <F1> "<change-folder> =personal/Inbox<enter>" "go to personal inbox"
+macro index <F2> "<change-folder> =uva/Inbox<enter>" "go to uva inbox"
+macro index <F3> "<change-folder> =professional/Inbox<enter>" "go to professional inbox"
+
+macro attach S "<save-entry><bol>~/downloads/<eol>" "save to downloads"
