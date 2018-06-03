@@ -27,4 +27,4 @@ fi
 
 dwmstatus &
 feh --bg-fill --no-fehbg ~/images/wallpaper &
-exec dwm
+exec dwm-wrapper
