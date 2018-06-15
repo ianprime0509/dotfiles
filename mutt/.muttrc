@@ -14,3 +14,9 @@ macro index <F2> "<change-folder> =uva/Inbox<enter>" "go to uva inbox"
 macro index <F3> "<change-folder> =professional/Inbox<enter>" "go to professional inbox"
 
 macro attach S "<save-entry><bol>~/downloads/<eol>" "save to downloads"
+
+# Use abook for address book stuff
+# (https://gitlab.com/muttmua/mutt/wikis/MuttGuide/Aliases#mutt-and-abook).
+set query_command = "abook --mutt-query '%s'"
+bind editor <Tab> complete-query
+macro index,pager A "<pipe-message>abook --add-email<return>" "add sender address to abook"
