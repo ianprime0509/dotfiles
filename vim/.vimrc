@@ -1,5 +1,8 @@
+syntax on
+
 " Custom highlighting.
 autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+autocmd ColorScheme * highlight Nbsp ctermbg=219 guibg=#ffafff
 
 if has('termguicolors')
 	set termguicolors
@@ -11,9 +14,11 @@ if has('termguicolors')
 endif
 
 " Show trailing whitespace.
-match ExtraWhitespace /\s\+$/
+autocmd Syntax * syn match ExtraWhitespace /\s\+$/ containedin=ALL
 " Highlight column 79.
 set colorcolumn=79
+" Highlight non-breaking spaces.
+autocmd Syntax * syn match Nbsp / / containedin=ALL
 
 augroup filetypedetect
 	autocmd BufRead,BufNewFile *mutt-* setfiletype mail
