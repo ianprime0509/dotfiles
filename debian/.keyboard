@@ -1,0 +1,9 @@
+# KEYBOARD CONFIGURATION FILE
+
+# Consult the keyboard(5) manual page.
+
+XKBMODEL="pc104"
+XKBLAYOUT="us,us"
+XKBVARIANT=",intl"
+XKBOPTIONS="grp:ctrls_toggle,lv3:ralt_switch,caps:escape,esperanto:qwerty,nbsp:level4"
+BACKSPACE="guess"
