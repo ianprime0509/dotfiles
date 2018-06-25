@@ -27,4 +27,5 @@ fi
 
 dwmstatus &
 feh --bg-fill --no-fehbg ~/images/wallpaper &
+redshift &
 exec dwm-wrapper
