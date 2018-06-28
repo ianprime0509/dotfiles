@@ -1,2 +1,3 @@
 bind-key j down
 bind-key k up
+browser surf
