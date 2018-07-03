@@ -15,5 +15,13 @@
     },
     "[javascript]": {
         "editor.tabSize": 2
-    }
+    },
+    "[makefile]": {
+        "editor.insertSpaces": false,
+        "editor.tabSize": 8
+    },
+    "editor.renderWhitespace": "boundary",
+    "files.trimTrailingWhitespace": true,
+    "git.confirmSync": false,
+    "files.insertFinalNewline": true
 }
