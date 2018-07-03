@@ -4,4 +4,4 @@
 
 [[ -f ~/.bashrc ]] && . ~/.bashrc
 
-export PATH=$HOME/opt/cross/bin:$HOME/.yarn/bin:$HOME/.cargo/bin:$HOME/bin:$PATH:/sbin
+export PATH=$HOME/opt/cross/bin:$HOME/.yarn/bin:$HOME/.cargo/bin:$HOME/bin:$PATH

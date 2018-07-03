@@ -20,6 +20,7 @@ alias ls='ls -p --color'
 alias ll='ls -l'
 alias grep='grep --color'
 
-export EDITOR='vim'
+export EDITOR='code -w'
+export VISUAL='code -w'
 
 export GPG_TTY=`tty`
