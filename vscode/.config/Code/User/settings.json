@@ -1,5 +1,7 @@
 {
-    "editor.rulers": [80],
+    "editor.rulers": [
+        80
+    ],
     "keyboard.dispatch": "keyCode",
     "[json]": {
         "editor.tabSize": 2
@@ -16,6 +18,12 @@
     "[javascript]": {
         "editor.tabSize": 2
     },
+    "[tex]": {
+        "editor.tabSize": 2
+    },
+    "[latex]": {
+        "editor.tabSize": 2
+    },
     "[makefile]": {
         "editor.insertSpaces": false,
         "editor.tabSize": 8
@@ -23,5 +31,9 @@
     "editor.renderWhitespace": "boundary",
     "files.trimTrailingWhitespace": true,
     "git.confirmSync": false,
-    "files.insertFinalNewline": true
+    "files.insertFinalNewline": true,
+    "files.associations": {
+        "*.tpp": "cpp"
+    },
+    "latex-workshop.view.pdf.viewer": "tab"
 }
