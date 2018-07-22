@@ -35,5 +35,6 @@
     "files.associations": {
         "*.tpp": "cpp"
     },
-    "latex-workshop.view.pdf.viewer": "tab"
+    "latex-workshop.view.pdf.viewer": "tab",
+    "git.enableSmartCommit": true
 }
