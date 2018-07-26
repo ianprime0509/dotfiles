@@ -1,7 +1,0 @@
-#!/bin/sh
-# A simple wrapper script for dwm that allows it to be reloaded without killing
-# all windows too.
-
-while true; do
-	dwm
-done

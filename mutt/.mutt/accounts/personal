@@ -1,5 +1,0 @@
-set from = "ianprime0509@gmail.com"
-set sendmail = "/usr/bin/msmtp -a personal"
-set postponed = "+personal/Drafts"
-
-color status green default

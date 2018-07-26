@@ -1,4 +1,0 @@
-#!/bin/sh
-# A wrapper script for Steam on Debian (Stretch) so that it runs.
-export LIBGL_DRI3_DISABLE=1
-exec /usr/bin/steam "$@"

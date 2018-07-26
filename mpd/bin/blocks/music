@@ -1,7 +1,0 @@
-#!/bin/sh
-STATUS=$(mpc -f '[[%artist% - ]%title%]|[%file]' current)
-if [ -n "$STATUS" ]; then
-    echo "🎶 $STATUS"
-    echo "🎶"
-    echo "#00FF00"
-fi
