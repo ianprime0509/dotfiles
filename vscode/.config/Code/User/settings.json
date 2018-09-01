@@ -21,6 +21,9 @@
     "[javascript]": {
         "editor.tabSize": 2
     },
+    "[typescript]": {
+        "editor.tabSize": 2
+    },
     "[tex]": {
         "editor.tabSize": 2
     },
@@ -41,5 +44,15 @@
     "latex-workshop.view.pdf.viewer": "tab",
     "git.enableSmartCommit": true,
     "git.autofetch": true,
-    "explorer.confirmDragAndDrop": false
+    "explorer.confirmDragAndDrop": false,
+    "workbench.startupEditor": "newUntitledFile",
+    "spellright.language": "en_US",
+    "spellright.documentTypes": [
+        "markdown",
+        "latex",
+        "plaintext"
+    ],
+    "spellright.notificationClass": "information",
+    "workbench.colorTheme": "Material Theme Ocean",
+    "workbench.iconTheme": "eq-material-theme-icons-ocean"
 }
