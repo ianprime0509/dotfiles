@@ -56,6 +56,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (use-package evil
   :ensure t
   :config
+  ;; Use ESC to quit most things.
   (define-key evil-normal-state-map [escape] 'keyboard-quit)
   (define-key evil-visual-state-map [escape] 'keyboard-quit)
   (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
@@ -63,7 +64,19 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
   (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
   (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+  ;; Disable some unwanted keys.
+  (define-key evil-normal-state-map (kbd "M-.") nil)
+  (define-key evil-insert-state-map (kbd "M-.") nil)
+  ;; Enable Evil mode.
   (evil-mode 1))
+
+(use-package evil-collection
+  :after evil
+  :ensure t
+  :init
+  (setq evil-want-keybinding nil)
+  :config
+  (evil-collection-init))
 
 ;;; Version control
 ;; Git setup
@@ -82,7 +95,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (use-package company
   :ensure t
   :demand
-  :bind ("TAB" . company-complete)
+  :bind ("C-<tab>" . company-complete)
   :config
   (global-company-mode))
 
@@ -110,12 +123,11 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;;; Language settings
 ;; LSP (language server protocol)
 (use-package lsp-mode
-  :ensure t)
-
-;; (use-package lsp-ui
-;;   :ensure t
-;;   :config
-;;   (setq lsp-eldoc-render-all nil))
+  :ensure t
+  :bind (("C-S-f" . lsp-format-buffer)
+	 ("C-?" . lsp-describe-thing-at-point))
+  :config
+  (setq lsp-inhibit-message t))
 
 ;; Debugging support
 (use-package dap-mode
@@ -133,11 +145,12 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 ;; Java
 (use-package lsp-java
+  :after 'lsp-mode
   :ensure t
+  :hook (java-mode . lsp-java-enable)
+  :bind ("C-S-o" . lsp-java-organize-imports)
   :config
-  (add-hook 'java-mode-hook 'lsp-java-enable)
-  (add-hook 'java-mode-hook (lambda () (lsp-ui-flycheck-enable t)))
-  (add-hook 'java-mode-hook 'lsp-ui-mode))
+  (setq lsp-java-format-settings-url "https://github.com/google/styleguide/blob/gh-pages/eclipse-java-google-style.xml"))
 
 (use-package dap-java
   :after 'lsp-java)
