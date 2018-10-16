@@ -28,24 +28,62 @@
 (use-package nord-theme
   :ensure t
   :config
-  (load-theme 'nord t))
+  (if (daemonp)
+      (add-hook 'after-make-frame-functions
+		(lambda (frame)
+		  (with-selected-frame frame
+		    (load-theme 'nord t))))
+    (load-theme 'nord t)))
 
 ;; UI elements
 (menu-bar-mode -1)
 (toggle-scroll-bar -1)
 (tool-bar-mode -1)
 
+;;; Keys config
 ;; Evil mode (Vim bindings)
+;; Use ESC to quit anything; thanks to https://stackoverflow.com/a/10166400.
+(defun minibuffer-keyboard-quit ()
+  "Abort recursive edit.
+In Delete Selection mode, if the mark is active, just deactivate it;
+then it takes a second \\[keyboard-quit] to abort the minibuffer."
+  (interactive)
+  (if (and delete-selection-mode transient-mark-mode mark-active)
+      (setq deactivate-mark  t)
+    (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
+    (abort-recursive-edit)))
+
 (use-package evil
   :ensure t
   :config
+  (define-key evil-normal-state-map [escape] 'keyboard-quit)
+  (define-key evil-visual-state-map [escape] 'keyboard-quit)
+  (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
+  (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
+  (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
+  (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
+  (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
   (evil-mode 1))
 
+;;; Version control
+;; Git setup
+(setq vc-follow-symlinks t)		; Follow symlinks to Git files
+
+(use-package magit
+  :ensure t
+  :bind ("C-x g" . magit-status))
+
+(use-package evil-magit
+  :ensure t
+  :after magit)
+
+;;; Editing tools
 ;; Company (autocomplete)
 (use-package company
   :ensure t
+  :demand
+  :bind ("TAB" . company-complete)
   :config
-  (bind-key (kbd "TAB") #'company-complete)
   (global-company-mode))
 
 (use-package company-lsp
@@ -55,13 +93,29 @@
   (add-hook 'java-mode-hook (lambda () (push 'company-lsp company-backends)))
   (setq company-lsp-cache-candidates t))
 
-;; Language settings
+;; Lisp-like language tools
+(use-package rainbow-delimiters
+  :ensure t
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+(use-package paredit
+  :ensure t
+  :hook (emacs-lisp-mode . enable-paredit-mode))
+
+(use-package evil-paredit
+  :after paredit
+  :ensure t
+  :hook (emacs-lisp-mode . evil-paredit-mode))
+
+;;; Language settings
 ;; LSP (language server protocol)
 (use-package lsp-mode
   :ensure t)
 
-(use-package lsp-ui
-  :ensure t)
+;; (use-package lsp-ui
+;;   :ensure t
+;;   :config
+;;   (setq lsp-eldoc-render-all nil))
 
 ;; Debugging support
 (use-package dap-mode
@@ -80,7 +134,6 @@
 ;; Java
 (use-package lsp-java
   :ensure t
-  :requires (lsp-ui-flycheck lsp-ui-sideline)
   :config
   (add-hook 'java-mode-hook 'lsp-java-enable)
   (add-hook 'java-mode-hook (lambda () (lsp-ui-flycheck-enable t)))
