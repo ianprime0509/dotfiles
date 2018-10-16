@@ -78,6 +78,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :config
   (evil-collection-init))
 
+;; Custom "launchers"
+(global-set-key (kbd "C-c s") 'shell)
+
 ;;; Version control
 ;; Git setup
 (setq vc-follow-symlinks t)		; Follow symlinks to Git files
@@ -145,7 +148,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 ;; Java
 (use-package lsp-java
-  :after 'lsp-mode
+  :after lsp-mode
   :ensure t
   :hook (java-mode . lsp-java-enable)
   :bind ("C-S-o" . lsp-java-organize-imports)
@@ -154,6 +157,18 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 (use-package dap-java
   :after 'lsp-java)
+
+;; TypeScript
+(use-package typescript-mode
+  :ensure t
+  :mode "\\.ts\\'")
+
+(use-package lsp-javascript-typescript
+  :after lsp-mode
+  :ensure t
+  :hook (ts-mode . lsp-javascript-typescript-enable)
+  :init
+  (setq lsp-javascript-typescript-server "/home/ian/.nvm/versions/node/v10.9.0/bin/javascript-typescript-stdio"))
 
 (provide 'init)
 ;;; init.el ends here
