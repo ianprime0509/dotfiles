@@ -118,16 +118,16 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;; Lisp-like language tools
 (use-package rainbow-delimiters
   :ensure t
-  :hook (prog-mode . rainbow-delimiters-mode))
+  :hook ((prog-mode geiser-repl-mode) . rainbow-delimiters-mode))
 
 (use-package paredit
   :ensure t
-  :hook (emacs-lisp-mode . enable-paredit-mode))
+  :hook ((emacs-lisp-mode geiser-mode geiser-repl-mode) . enable-paredit-mode))
 
 (use-package evil-paredit
   :after paredit
   :ensure t
-  :hook (emacs-lisp-mode . evil-paredit-mode))
+  :hook ((emacs-lisp-mode geiser-mode geiser-repl-mode) . evil-paredit-mode))
 
 ;;; Language settings
 ;; LSP (language server protocol)
@@ -200,6 +200,13 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (use-package json-mode
   :ensure t
   :mode "\\.json\\'")
+
+;; Scheme
+(use-package geiser
+  :ensure t
+  :mode ("\\.scm\\'" . geiser-mode)
+  :config
+  (setq geiser-active-implementations '(guile)))
 
 ;; TypeScript
 (use-package typescript-mode
