@@ -28,17 +28,23 @@
 (use-package nord-theme
   :ensure t
   :config
-  (if (daemonp)
-      (add-hook 'after-make-frame-functions
-		(lambda (frame)
-		  (with-selected-frame frame
-		    (load-theme 'nord t))))
-    (load-theme 'nord t)))
+  (add-hook 'after-make-frame-functions
+	    (lambda (frame)
+	      (when (eq (length (frame-list)) 2)
+		(with-selected-frame frame
+		  (load-theme 'nord t))))))
 
 ;; UI elements
 (menu-bar-mode -1)
 (toggle-scroll-bar -1)
 (tool-bar-mode -1)
+
+;; ANSI color in compilation buffers
+(use-package ansi-color
+  :config
+  (add-hook 'compilation-filter-hook
+	    (lambda ()
+	      (ansi-color-apply-on-region compilation-filter-start (point)))))
 
 ;;; Keys config
 ;; Evil mode (Vim bindings)
@@ -55,6 +61,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 (use-package evil
   :ensure t
+  :init
+  (setq evil-want-keybinding nil)
   :config
   ;; Use ESC to quit most things.
   (define-key evil-normal-state-map [escape] 'keyboard-quit)
@@ -67,14 +75,13 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   ;; Disable some unwanted keys.
   (define-key evil-normal-state-map (kbd "M-.") nil)
   (define-key evil-insert-state-map (kbd "M-.") nil)
+  (define-key undo-tree-map (kbd "C-?") nil)
   ;; Enable Evil mode.
   (evil-mode 1))
 
 (use-package evil-collection
   :after evil
   :ensure t
-  :init
-  (setq evil-want-keybinding nil)
   :config
   (evil-collection-init))
 
@@ -90,8 +97,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :bind ("C-x g" . magit-status))
 
 (use-package evil-magit
-  :ensure t
-  :after magit)
+  :ensure t)
 
 ;;; Editing tools
 ;; Company (autocomplete)
@@ -132,10 +138,21 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :config
   (setq lsp-inhibit-message t))
 
+(use-package lsp-ui
+  :after (lsp-mode flycheck)
+  :hook (lsp-mode . lsp-ui-mode)
+  :ensure t
+  :config
+  (setq lsp-ui-doc-enable nil)
+  (setq lsp-ui-sideline-enable nil)
+  (setq lsp-ui-peek-enable nil)
+  (setq lsp-ui-doc-enable nil)
+  (lsp-ui-flycheck-enable t))
+
 ;; Debugging support
 (use-package dap-mode
+  :hook java-mode
   :ensure t
-  :after lsp-mode
   :config
   (dap-mode t)
   (dap-ui-mode t))
@@ -147,16 +164,42 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (global-flycheck-mode))
 
 ;; Java
+(defconst my-lombok-jar-path
+  "/home/ian/.m2/repository/org/projectlombok/lombok/1.16.22/lombok-1.16.22.jar"
+  "The path to the Lombok JAR for Java.")
+
 (use-package lsp-java
-  :after lsp-mode
+  :after (lsp-mode dap-java)
   :ensure t
   :hook (java-mode . lsp-java-enable)
   :bind ("C-S-o" . lsp-java-organize-imports)
   :config
+  (add-to-list 'lsp-java-vmargs (concat "-javaagent:" my-lombok-jar-path) t)
   (setq lsp-java-format-settings-url "https://github.com/google/styleguide/blob/gh-pages/eclipse-java-google-style.xml"))
 
 (use-package dap-java
-  :after 'lsp-java)
+  :after dap-mode)
+
+;; JavaScript
+;; Add global NPM module path to exec-path.
+(add-to-list 'exec-path "/home/ian/.nvm/versions/node/v10.9.0/bin/")
+;; Add local node_modules bin path to exec-path.
+(use-package add-node-modules-path
+  :ensure t
+  :hook (js2-mode json-mode typescript-mode))
+
+(use-package prettier-js
+  :ensure t
+  :hook ((js2-mode json-mode typescript-mode) . prettier-js-mode))
+
+(use-package js2-mode
+  :ensure t
+  :mode "\\.js\\'")
+
+;; JSON
+(use-package json-mode
+  :ensure t
+  :mode "\\.json\\'")
 
 ;; TypeScript
 (use-package typescript-mode
@@ -166,9 +209,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (use-package lsp-javascript-typescript
   :after lsp-mode
   :ensure t
-  :hook (ts-mode . lsp-javascript-typescript-enable)
-  :init
-  (setq lsp-javascript-typescript-server "/home/ian/.nvm/versions/node/v10.9.0/bin/javascript-typescript-stdio"))
+  :hook ((js2-mode ts-mode) . lsp-javascript-typescript-enable))
 
 (provide 'init)
 ;;; init.el ends here
