@@ -18,6 +18,10 @@
 (when (file-exists-p custom-file)
   (load custom-file))
 
+;; Choose a better location for backup files.
+(setq backup-directory-alist `(("." . ,(concat user-emacs-directory "backups/"))))
+(setq backup-by-copying t)
+
 ;; If use-package is not installed, install it.
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -38,6 +42,7 @@
 (menu-bar-mode -1)
 (toggle-scroll-bar -1)
 (tool-bar-mode -1)
+(setq column-number-mode t)
 
 ;; ANSI color in compilation buffers
 (use-package ansi-color
@@ -45,6 +50,12 @@
   (add-hook 'compilation-filter-hook
 	    (lambda ()
 	      (ansi-color-apply-on-region compilation-filter-start (point)))))
+
+;;; Text editing
+(setq sentence-end-double-space nil)
+(setq indent-tabs-mode nil)
+(setq tab-width 8)
+(setq c-basic-offset 2)
 
 ;;; Keys config
 ;; Evil mode (Vim bindings)
@@ -83,9 +94,11 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :after evil
   :ensure t
   :config
+  (setq evil-collection-company-use-tng nil)
   (evil-collection-init))
 
 ;; Custom "launchers"
+(global-set-key (kbd "C-c b") 'eval-buffer)
 (global-set-key (kbd "C-c s") 'shell)
 
 ;;; Version control
@@ -113,7 +126,13 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :ensure t
   :config
   (add-hook 'java-mode-hook (lambda () (push 'company-lsp company-backends)))
-  (setq company-lsp-cache-candidates t))
+  (setq company-lsp-cache-candidates nil))
+
+;; YASnippet (template snippets)
+(use-package yasnippet
+  :ensure t
+  :config
+  (yas-global-mode 1))
 
 ;; Lisp-like language tools
 (use-package rainbow-delimiters
@@ -175,10 +194,33 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :bind ("C-S-o" . lsp-java-organize-imports)
   :config
   (add-to-list 'lsp-java-vmargs (concat "-javaagent:" my-lombok-jar-path) t)
-  (setq lsp-java-format-settings-url "https://github.com/google/styleguide/blob/gh-pages/eclipse-java-google-style.xml"))
+  ;; Disable LSP formatting; see the google-java-format config below.
+  (setq lsp-java-format-enabled nil))
 
 (use-package dap-java
   :after dap-mode)
+
+;; Custom code for formatting Java with google-java-format:
+;; https://github.com/google/google-java-format
+(defconst google-java-format-executable "google-java-format"
+  "The name of the google-java-format executable.")
+
+(defun google-java-format-buffer ()
+  "Formats the current buffer with google-java-format."
+  (interactive)
+  (let ((old-point (point)))
+    (call-process-region
+     (point-min)                          ; Start of format region
+     (point-max)                          ; End of format region
+     google-java-format-executable        ; Executable to run
+     t                                    ; Delete buffer contents
+     '(t nil)                             ; Send stdout to buffer, ignore stderr
+     nil                                  ; Don't redisplay during command
+     ;; Arguments to executable:
+     "-")
+    (goto-char old-point)))
+
+(define-key java-mode-map (kbd "C-S-f") #'google-java-format-buffer)
 
 ;; JavaScript
 ;; Add global NPM module path to exec-path.
@@ -186,11 +228,11 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;; Add local node_modules bin path to exec-path.
 (use-package add-node-modules-path
   :ensure t
-  :hook (js2-mode json-mode typescript-mode))
+  :hook (js2-mode json-mode markdown-mode typescript-mode))
 
 (use-package prettier-js
   :ensure t
-  :hook ((js2-mode json-mode typescript-mode) . prettier-js-mode))
+  :hook ((js2-mode json-mode markdown-mode typescript-mode) . prettier-js-mode))
 
 (use-package js2-mode
   :ensure t
@@ -211,12 +253,14 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;; TypeScript
 (use-package typescript-mode
   :ensure t
-  :mode "\\.ts\\'")
+  :mode "\\.ts\\'"
+  :config
+  (setq typescript-indent-level 2))
 
 (use-package lsp-javascript-typescript
   :after lsp-mode
   :ensure t
-  :hook ((js2-mode ts-mode) . lsp-javascript-typescript-enable))
+  :hook ((js2-mode typescript-mode) . lsp-javascript-typescript-enable))
 
 (provide 'init)
 ;;; init.el ends here
