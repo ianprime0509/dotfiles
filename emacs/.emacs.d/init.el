@@ -139,14 +139,26 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :ensure t
   :hook ((prog-mode geiser-repl-mode) . rainbow-delimiters-mode))
 
-(use-package paredit
+(use-package smartparens
   :ensure t
-  :hook ((emacs-lisp-mode geiser-mode geiser-repl-mode) . enable-paredit-mode))
-
-(use-package evil-paredit
-  :after paredit
-  :ensure t
-  :hook ((emacs-lisp-mode geiser-mode geiser-repl-mode) . evil-paredit-mode))
+  :hook (prog-mode . smartparens-strict-mode)
+  :config
+  (use-package smartparens-config)
+  (sp-pair "(" ")" :wrap "M-(")
+  (sp-pair "[" "]" :wrap "M-[")
+  (sp-pair "{" "}" :wrap "M-{")
+  (sp-pair "\"" "\"" :wrap "M-\"")
+  (sp-pair "'" "'" :wrap "M-'")
+  (bind-keys
+   :map smartparens-mode-map
+   ("M-s" . sp-splice-sexp)
+   ("M-r" . sp-raise-sexp)
+   ("M-S" . sp-split-sexp)
+   ("M-J" . sp-join-sexp)
+   ("C-(" . sp-backward-slurp-sexp)
+   ("C-)" . sp-forward-slurp-sexp)
+   ("C-{" . sp-backward-barf-sexp)
+   ("C-}" . sp-forward-barf-sexp)))
 
 ;;; Language settings
 ;; LSP (language server protocol)
@@ -194,6 +206,12 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :bind ("C-S-o" . lsp-java-organize-imports)
   :config
   (add-to-list 'lsp-java-vmargs (concat "-javaagent:" my-lombok-jar-path) t)
+  (setq lsp-java-organize-imports nil)
+  (setq lsp-java-favorite-static-members
+        '("org.mockito.Mockito.*"
+          "org.assertj.core.api.Assertions.*"
+          "org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*"
+          "org.springframework.test.web.servlet.result.MockMvcResultMatchers.*"))
   ;; Disable LSP formatting; see the google-java-format config below.
   (setq lsp-java-format-enabled nil))
 
