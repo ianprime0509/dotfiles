@@ -29,14 +29,18 @@
 
 ;;; UI configuration
 ;; Color theme
+(defconst my-theme 'nord
+  "The theme I want to use, as needed by `load-theme'.")
+(defun my-load-theme (frame)
+  "Load the theme specified as `my-theme' with the given frame."
+  (when (eq (length (frame-list)) 2)
+    (with-selected-frame frame
+      (load-theme my-theme t))))
+
 (use-package nord-theme
   :ensure t
   :config
-  (add-hook 'after-make-frame-functions
-	    (lambda (frame)
-	      (when (eq (length (frame-list)) 2)
-		(with-selected-frame frame
-		  (load-theme 'nord t))))))
+  (add-hook 'after-make-frame-functions #'my-load-theme))
 
 ;; UI elements
 (menu-bar-mode -1)
