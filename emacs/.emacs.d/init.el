@@ -244,15 +244,19 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;; Add local node_modules bin path to exec-path.
 (use-package add-node-modules-path
   :ensure t
-  :hook (js2-mode json-mode markdown-mode typescript-mode))
+  :hook (js-mode json-mode markdown-mode typescript-mode))
 
 (use-package prettier-js
   :ensure t
-  :hook ((js2-mode json-mode markdown-mode typescript-mode) . prettier-js-mode))
+  :hook ((js-mode json-mode markdown-mode typescript-mode) . prettier-js-mode))
 
-(use-package js2-mode
+(use-package rjsx-mode
   :ensure t
-  :mode "\\.js\\'")
+  :mode "\\.js\\'"
+  :config
+  (add-hook 'js-mode-hook
+            (lambda ()
+              (flycheck-add-next-checker 'lsp-ui 'javascript-eslint))))
 
 ;; JSON
 (use-package json-mode
@@ -279,7 +283,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (use-package lsp-javascript-typescript
   :after lsp-mode
   :ensure t
-  :hook ((js2-mode typescript-mode) . lsp-javascript-typescript-enable))
+  :hook ((js-mode typescript-mode) . lsp-javascript-typescript-enable))
 
 (provide 'init)
 ;;; init.el ends here
