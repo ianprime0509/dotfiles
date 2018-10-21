@@ -271,6 +271,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :ensure t
   :mode "\\.ts\\'"
   :config
+  (add-hook 'typescript-mode-hook
+            (lambda ()
+              (flycheck-add-next-checker 'lsp-ui 'typescript-tslint)))
   (setq typescript-indent-level 2))
 
 (use-package lsp-javascript-typescript
