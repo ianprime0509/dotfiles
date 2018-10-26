@@ -240,7 +240,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
      "-")
     (goto-char old-point)))
 
-(define-key java-mode-map (kbd "C-S-f") #'google-java-format-buffer)
+(use-package java-mode
+  :mode "\\.java\\'"
+  :bind ("C-S-f" . google-java-format-buffer))
 
 ;; JavaScript
 ;; Add global NPM module path to exec-path.
