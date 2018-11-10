@@ -1,0 +1,16 @@
+[general]
+accounts = personal
+
+[Account personal]
+localrepository = local-personal
+remoterepository = remote-personal
+
+[Repository local-personal]
+type = GmailMaildir
+localfolders = ~/mail/personal
+
+[Repository remote-personal]
+type = Gmail
+remoteuser = ianprime0509@gmail.com
+remotepassfile = ~/.secrets/gmail-personal-app-password
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
