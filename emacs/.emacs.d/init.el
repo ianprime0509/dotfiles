@@ -145,7 +145,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 (use-package smartparens
   :ensure t
-  :hook (prog-mode . smartparens-strict-mode)
+  :hook (prog-mode . smartparens-mode)
   :bind (:map smartparens-mode-map
               ("M-s" . sp-splice-sexp)
               ("M-r" . sp-raise-sexp)
