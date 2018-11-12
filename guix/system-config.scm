@@ -1,7 +1,7 @@
 ;;; This is my system configuration for GuixSD.
 (use-modules (gnu)
 	     (gnu system nss))
-(use-service-modules desktop)
+(use-service-modules desktop xorg)
 (use-package-modules bootloaders certs suckless wm)
 
 (define custom-x11-keyboard
@@ -10,7 +10,8 @@
        Driver \"evdev\"
        MatchIsKeyboard \"on\"
        Option \"XkbLayout\" \"us\"
-       Option \"XkbOptions\" \"caps:escape,compose:menu\"")
+       Option \"XkbOptions\" \"caps:escape,compose:menu\"
+   EndSection")
 
 (operating-system
   (host-name "ian")
@@ -22,7 +23,7 @@
 	       (target "/boot")))
 
   ;; Silence PC speaker (BEEP).
-  (kernel-arguments '("modprobe.blacklist=pcspkr"))
+  (kernel-arguments '("pcspkr.blacklist=yes"))
 
   (file-systems (cons* (file-system
 			 (device (file-system-label "my-root"))
