@@ -30,4 +30,11 @@ alias ls='ls -p --color=auto'
 alias ll='ls -l'
 alias grep='grep --color=auto'
 
+export EDITOR=edit
+export VISUAL=edit
+
 export GIT_EXEC_PATH="/home/ian/.guix-profile/libexec/git-core"
+export TERMINFO_DIRS="/home/ian/.guix-profile/share/terminfo"
+export ACLOCAL_PATH="/home/ian/.guix-profile/share/aclocal${ACLOCAL_PATH:+:}$ACLOCAL_PATH"
+ export CPATH="/home/ian/.guix-profile/include${CPATH:+:}$CPATH"
+ export LIBRARY_PATH="/home/ian/.guix-profile/lib${LIBRARY_PATH:+:}$LIBRARY_PATH"

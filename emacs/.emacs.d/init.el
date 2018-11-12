@@ -66,6 +66,7 @@
 (setq indent-tabs-mode nil)
 (setq tab-width 8)
 (setq c-basic-offset 2)
+(setq require-final-newline t)
 
 ;;; Keys config
 ;; Evil mode (Vim bindings)
