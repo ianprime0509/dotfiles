@@ -48,6 +48,12 @@
 (tool-bar-mode -1)
 (setq column-number-mode t)
 
+;; Show certain types of whitespace.
+(use-package whitespace
+  :config
+  (setq whitespace-style '(face trailing tab))
+  (global-whitespace-mode))
+
 ;; ANSI color in compilation buffers
 (use-package ansi-color
   :config
@@ -270,11 +276,17 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :mode "\\.json\\'")
 
 ;; Scheme
+(use-package scheme-mode
+  :mode "\\.scm\\'")
+
 (use-package geiser
   :ensure t
   :mode ("\\.scm\\'" . geiser-mode)
   :config
   (setq geiser-active-implementations '(guile)))
+
+(use-package guix
+  :ensure t)
 
 ;; TypeScript
 (use-package typescript-mode

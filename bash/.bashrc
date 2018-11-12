@@ -1,6 +1,6 @@
-#
-# ~/.bashrc
-#
+# Bash initialization for interactive non-login shells and
+# for remote shells (info "(bash) Bash Startup Files").
+
 # Export 'SHELL' to child processes.  Programs such as 'screen'
 # honor it and otherwise use /bin/sh.
 export SHELL
@@ -16,26 +16,18 @@ then
     return
 fi
 
-alias ls='ls -p --color'
+# Source the system-wide file.
+source /etc/bashrc
+
+# Adjust the prompt depending on whether we're in 'guix environment'.
+if [ -n "$GUIX_ENVIRONMENT" ]
+then
+    PS1='\u@\h \w [env]\$ '
+else
+    PS1='\u@\h \w\$ '
+fi
+alias ls='ls -p --color=auto'
 alias ll='ls -l'
-alias grep='grep --color'
+alias grep='grep --color=auto'
 
-export EDITOR='code -w'
-export VISUAL='code -w'
-
-export GPG_TTY=`tty`
-
-export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-
-parse_git_branch() {
-    branch=$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
-    if [[ -n $branch ]]; then
-        printf '[%s]' $branch
-    fi
-}
-
-PS1='${debian_chroot:+($debian_chroot)}\[\e[32m\]\u@\h\[\e[0m\]:\w\[\e[34m\]$(parse_git_branch)\[\e[0m\]\n\$ '
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export GIT_EXEC_PATH="/home/ian/.guix-profile/libexec/git-core"
