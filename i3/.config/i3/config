@@ -178,3 +178,7 @@ bindsym XF86AudioRaiseVolume exec ponymix increase 5 && pkill -SIGRTMIN+1 i3bloc
 
 # Wallpaper
 exec_always --no-startup-id sh ~/.fehbg
+
+# Program launchers
+bindsym $mod+m exec edit
+bindsym $mod+i exec icecat
