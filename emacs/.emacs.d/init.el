@@ -304,5 +304,29 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :ensure t
   :hook ((js-mode typescript-mode) . lsp-javascript-typescript-enable))
 
+;;; Email
+;; Much of this configuration has been adapted from
+;; https://medium.com/@kirang89/emacs-as-email-client-with-offlineimap-and-mu4e-on-os-x-3ba55adc78b6
+(use-package mu4e
+  :bind ("C-c m" . mu4e)
+  :config
+  (setq mu4e-maildir "~/mail/personal"
+	mu4e-drafts-folder "/[Gmail].Drafts"
+	mu4e-sent-folder "/[Gmail].Sent Mail"
+        mu4e-trash-folder "/Trash"
+	mu4e-sent-messages-behavior 'delete
+	mu4e-get-mail-command "offlineimap")
+
+  (setq user-mail-address "ianprime0509@gmail.com"
+	user-full-name "Ian Johnson"))
+
+(use-package smtpmail
+  :config
+  (setq message-send-mail-function 'smtpmail-send-it
+	smtpmail-stream-type 'starttls
+	smtpmail-default-smtp-server "smtp.gmail.com"
+	smtpmail-smtp-server "smtp.gmail.com"
+	smtpmail-smtp-service 587))
+
 (provide 'init)
 ;;; init.el ends here
