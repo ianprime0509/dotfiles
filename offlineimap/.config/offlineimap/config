@@ -4,6 +4,7 @@ accounts = personal
 [Account personal]
 localrepository = local-personal
 remoterepository = remote-personal
+postsynchook = mu index --maildir ~/mail
 
 [Repository local-personal]
 type = GmailMaildir

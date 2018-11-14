@@ -277,12 +277,12 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :mode "\\.json\\'")
 
 ;; Scheme
-(use-package scheme-mode
-  :mode "\\.scm\\'")
+(use-package scheme
+  :mode ("\\.\\(scm\\|guile\\)\\'" . scheme-mode))
 
 (use-package geiser
   :ensure t
-  :mode ("\\.scm\\'" . geiser-mode)
+  :hook (scheme-mode . geiser-mode)
   :config
   (setq geiser-active-implementations '(guile)))
 
