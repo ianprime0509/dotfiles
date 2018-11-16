@@ -1,5 +1,5 @@
 [general]
-accounts = personal
+accounts = personal, professional
 
 [Account personal]
 localrepository = local-personal
@@ -14,4 +14,19 @@ localfolders = ~/mail/personal
 type = Gmail
 remoteuser = ianprime0509@gmail.com
 remotepassfile = ~/.secrets/gmail-personal-app-password
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+
+[Account professional]
+localrepository = local-professional
+remoterepository = remote-professional
+postsynchook = mu index --maildir ~/mail
+
+[Repository local-professional]
+type = GmailMaildir
+localfolders = ~/mail/professional
+
+[Repository remote-professional]
+type = Gmail
+remoteuser = iantimothyjohnson@gmail.com
+remotepassfile = ~/.secrets/gmail-professional-app-password
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt

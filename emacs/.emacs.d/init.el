@@ -133,7 +133,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (global-company-mode))
 
 (use-package company-lsp
-  :after company
   :ensure t
   :config
   (add-hook 'java-mode-hook (lambda () (push 'company-lsp company-backends)))
@@ -208,13 +207,15 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   "/home/ian/.m2/repository/org/projectlombok/lombok/1.16.22/lombok-1.16.22.jar"
   "The path to the Lombok JAR for Java.")
 
+(use-package dap-java
+  :after dap-mode)
+
 (use-package lsp-java
-  :after (lsp-mode dap-java)
   :ensure t
   :hook (java-mode . lsp-java-enable)
   :bind ("C-S-o" . lsp-java-organize-imports)
   :config
-  (add-to-list 'lsp-java-vmargs (concat "-javaagent:" my-lombok-jar-path) t)
+  ;; (add-to-list 'lsp-java-vmargs (concat "-javaagent:" my-lombok-jar-path) t)
   (setq lsp-java-save-action-organize-imports nil)
   (setq lsp-java-favorite-static-members
         '("org.mockito.Mockito.*"
@@ -223,9 +224,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
           "org.springframework.test.web.servlet.result.MockMvcResultMatchers.*"))
   ;; Disable LSP formatting; see the google-java-format config below.
   (setq lsp-java-format-enabled nil))
-
-(use-package dap-java
-  :after dap-mode)
 
 ;; Custom code for formatting Java with google-java-format:
 ;; https://github.com/google/google-java-format
@@ -300,7 +298,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (setq typescript-indent-level 2))
 
 (use-package lsp-javascript-typescript
-  :after lsp-mode
   :ensure t
   :hook ((js-mode typescript-mode) . lsp-javascript-typescript-enable))
 
@@ -310,15 +307,46 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (use-package mu4e
   :bind ("C-c m" . mu4e)
   :config
-  (setq mu4e-maildir "~/mail/personal"
-	mu4e-drafts-folder "/[Gmail].Drafts"
-	mu4e-sent-folder "/[Gmail].Sent Mail"
-        mu4e-trash-folder "/Trash"
-	mu4e-sent-messages-behavior 'delete
-	mu4e-get-mail-command "offlineimap")
+  (setq mu4e-maildir "~/mail"
+	mu4e-sent-messages-behavior 'delete)
 
   (setq user-mail-address "ianprime0509@gmail.com"
-	user-full-name "Ian Johnson"))
+	user-full-name "Ian Johnson")
+
+  (setq mu4e-context-policy 'pick-first)
+  (setq mu4e-contexts
+	`(,(make-mu4e-context
+	    :name "Personal"
+	    :match-func (lambda (msg)
+			  (when msg
+			    (string-match-p "^/personal" (mu4e-message-field msg :maildir))))
+	    :vars '((user-mail-address . "ianprime0509@gmail.com")
+		    (mu4e-drafts-folder . "/personal/[Gmail].Drafts")
+		    (mu4e-sent-folder . "/personal/[Gmail].Sent Mail")
+		    (mu4e-trash-folder . "/personal/Trash")
+                    (mu4e-get-mail-command . "offlineimap -a personal")))
+          ,(make-mu4e-context
+	    ;; TODO: I'd like to call this "Professional", but then mu4e sets
+	    ;; the same context letter as "Personal".
+	    :name "Work"
+	    :match-func (lambda (msg)
+			  (when msg
+			    (string-match-p "^/professional" (mu4e-message-field msg :maildir))))
+	    :vars '((user-mail-address . "iantimothyjohnson@gmail.com")
+		    (mu4e-drafts-folder . "/professional/[Gmail].Drafts")
+		    (mu4e-sent-folder . "/professional/[Gmail].Sent Mail")
+		    (mu4e-trash-folder . "/professional/Trash")
+                    (mu4e-get-mail-command . "offlineimap -a professional")))))
+
+  (setq mu4e-bookmarks
+        `(,(make-mu4e-bookmark
+            :name "Unread messages"
+            :query "flag:unread and not flag:trashed and not maildir:/.*(Spam|All Mail)/"
+            :key ?u)
+          ,(make-mu4e-bookmark
+            :name "Today's messages"
+            :query "date:today..now and not flag:trashed and not maildir:/.*(Spam|All Mail)/"
+            :key ?t))))
 
 (use-package smtpmail
   :config
