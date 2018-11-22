@@ -1,5 +1,14 @@
 #!/bin/sh
-BATTERY=BAT0
+BATTERY=${BATTERY:-BAT0}
 CHARGE=$(cat /sys/class/power_supply/${BATTERY}/capacity)
 STATUS=$(cat /sys/class/power_supply/${BATTERY}/status)
+if [ "${CHARGE}" -gt 50 ]; then
+    COLOR="#00ff00"
+elif [ "${CHARGE}" -gt 25 ]; then
+    COLOR="#ffff00"
+else
+    COLOR="#ff0000"
+fi
 echo "Battery: ${CHARGE}% (${STATUS})"
+echo "${CHARGE}%"
+echo "${COLOR}"

@@ -1,0 +1,10 @@
+#!/bin/sh
+INTERFACE=${INTERFACE:-enp0s25}
+OPERSTATE=$(cat /sys/class/net/${INTERFACE}/operstate)
+case ${OPERSTATE} in
+    up) COLOR="#00ff00" ;;
+    down) COLOR="#ff0000" ;;
+esac
+echo "${INTERFACE} ${OPERSTATE}"
+echo "${INTERFACE} ${OPERSTATE}"
+echo "${COLOR}"
