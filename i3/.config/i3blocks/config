@@ -1,6 +1,9 @@
 # Set default command to the command in my blocks directory.
 command=~/bin/blocks/$BLOCK_NAME
 
+[battery]
+interval=5
+
 [volume]
 interval=1
 signal=1

@@ -1,0 +1,5 @@
+#!/bin/sh
+BATTERY=BAT0
+CHARGE=$(cat /sys/class/power_supply/${BATTERY}/capacity)
+STATUS=$(cat /sys/class/power_supply/${BATTERY}/status)
+echo "Battery: ${CHARGE}% (${STATUS})"
