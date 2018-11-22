@@ -1,7 +1,9 @@
 #!/bin/sh
 BATTERY=${BATTERY:-BAT0}
-CHARGE=$(cat /sys/class/power_supply/${BATTERY}/capacity)
-STATUS=$(cat /sys/class/power_supply/${BATTERY}/status)
+DIR=/sys/class/power_supply/${BATTERY}
+[ -d ${DIR} ] || exit
+CHARGE=$(cat ${DIR}/capacity)
+STATUS=$(cat ${DIR}/status)
 if [ "${CHARGE}" -gt 50 ]; then
     COLOR="#00ff00"
 elif [ "${CHARGE}" -gt 25 ]; then

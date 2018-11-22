@@ -1,5 +1,7 @@
 #!/bin/sh
 INTERFACE=${INTERFACE:-enp0s25}
+DIR=/sys/class/net/${INTERFACE}
+[ -d ${DIR} ] || exit
 OPERSTATE=$(cat /sys/class/net/${INTERFACE}/operstate)
 case ${OPERSTATE} in
     up) COLOR="#00ff00" ;;
