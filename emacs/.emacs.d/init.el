@@ -316,7 +316,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (setq mu4e-context-policy 'pick-first)
   (setq mu4e-contexts
 	`(,(make-mu4e-context
-	    :name "Personal"
+	    :name "p-Personal"
 	    :match-func (lambda (msg)
 			  (when msg
 			    (string-match-p "^/personal" (mu4e-message-field msg :maildir))))
@@ -326,9 +326,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 		    (mu4e-trash-folder . "/personal/Trash")
                     (mu4e-get-mail-command . "offlineimap -a personal")))
           ,(make-mu4e-context
-	    ;; TODO: I'd like to call this "Professional", but then mu4e sets
-	    ;; the same context letter as "Personal".
-	    :name "Work"
+	    :name "w-Professional"
 	    :match-func (lambda (msg)
 			  (when msg
 			    (string-match-p "^/professional" (mu4e-message-field msg :maildir))))
@@ -341,11 +339,11 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (setq mu4e-bookmarks
         `(,(make-mu4e-bookmark
             :name "Unread messages"
-            :query "flag:unread and not flag:trashed and not maildir:/.*(Spam|All Mail)/"
+            :query "flag:unread and not flag:trashed and not maildir:\"/.*(Spam|All Mail|Trash)/\""
             :key ?u)
           ,(make-mu4e-bookmark
             :name "Today's messages"
-            :query "date:today..now and not flag:trashed and not maildir:/.*(Spam|All Mail)/"
+            :query "date:today..now and not flag:trashed and not maildir:\"/.*(Spam|All Mail|Trash)/\""
             :key ?t))))
 
 (use-package smtpmail
