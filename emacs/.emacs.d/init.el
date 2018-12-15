@@ -29,22 +29,22 @@
 
 ;;; UI configuration
 ;; Color theme
-(defconst my-theme 'nord
+(defconst my-theme 'base16-woodland
   "The theme I want to use, as needed by `load-theme'.")
 (defun my-load-theme (frame)
-  "Load the theme specified as `my-theme' with the given frame."
+  "Load the theme specified as `my-theme' using FRAME."
   (when (eq (length (frame-list)) 2)
     (with-selected-frame frame
       (load-theme my-theme t))))
 
-(use-package nord-theme
+(use-package base16-theme
   :ensure t
   :config
   (add-hook 'after-make-frame-functions #'my-load-theme))
 
 ;; UI elements
 (menu-bar-mode -1)
-(toggle-scroll-bar -1)
+(scroll-bar-mode -1)
 (tool-bar-mode -1)
 (setq column-number-mode t)
 
@@ -144,6 +144,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :config
   (yas-global-mode 1))
 
+(use-package yasnippet-snippets
+  :ensure t)
+
 ;; Lisp-like language tools
 (use-package rainbow-delimiters
   :ensure t
@@ -201,6 +204,30 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :ensure t
   :config
   (global-flycheck-mode))
+
+;; Go
+(defun my-go-setup ()
+  "Custom Go setup."
+  (add-hook 'before-save-hook #'gofmt-before-save nil t))
+
+(use-package go-mode
+  :ensure t
+  :mode "\\.go\\'"
+  :bind ("M-." . godef-jump)
+  :init
+  (add-hook 'go-mode-hook #'my-go-setup)
+  :config
+  (setq gofmt-command "goimports"))
+
+(use-package company-go
+  :after company
+  :ensure t
+  :config
+  (add-to-list 'company-backends 'company-go))
+
+(use-package go-eldoc
+  :ensure t
+  :hook (go-mode . go-eldoc-setup))
 
 ;; Java
 (defconst my-lombok-jar-path
