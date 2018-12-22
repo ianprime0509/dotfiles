@@ -3,7 +3,7 @@ command=~/bin/blocks/$BLOCK_NAME
 
 [network]
 interval=5
-INTERFACE=wlp0s20u3
+INTERFACE=wlp0s20u4
 
 [network]
 interval=5

@@ -226,6 +226,7 @@ exec_always --no-startup-id sh ~/.fehbg
 # Program launchers
 bindsym $mod+m exec edit
 bindsym $mod+i exec icecat
+bindsym $mod+n exec xlock -mode rain
 
 # Startup scripts
 exec --no-startup-id mcron
