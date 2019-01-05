@@ -213,6 +213,9 @@ client.background $base07
 # Window assignments
 assign [class="^keepassxc$"] 10
 
+# Custom keyboard config
+exec_always --no-startup-id setxkbmap -option caps:escape,compose:menu
+
 # Load Xresources on startup.
 exec_always --no-startup-id xrdb ~/.Xresources
 
@@ -225,11 +228,8 @@ exec_always --no-startup-id sh ~/.fehbg
 
 # Program launchers
 bindsym $mod+m exec edit
-bindsym $mod+i exec icecat
-bindsym $mod+slash exec xlock -mode rain
-
-# Startup scripts
-exec --no-startup-id mcron
+bindsym $mod+i exec firefox
+bindsym $mod+slash exec i3lock
 
 # Autolaunching programs
 exec keepassxc

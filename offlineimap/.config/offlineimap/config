@@ -15,6 +15,7 @@ type = Gmail
 remoteuser = ianprime0509@gmail.com
 remotepassfile = ~/.secrets/gmail-personal-app-password
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+ssl_version = tls1_2
 
 [Account professional]
 localrepository = local-professional
@@ -30,3 +31,4 @@ type = Gmail
 remoteuser = iantimothyjohnson@gmail.com
 remotepassfile = ~/.secrets/gmail-professional-app-password
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+ssl_version = tls1_2
