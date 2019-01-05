@@ -67,6 +67,8 @@
 (setq tab-width 8)
 (setq c-basic-offset 2)
 (setq require-final-newline t)
+(setq fill-column 79)
+(setq backward-delete-char-untabify-method 'hungry)
 
 ;;; Keys config
 ;; Evil mode (Vim bindings)
@@ -204,6 +206,14 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :ensure t
   :config
   (global-flycheck-mode))
+
+;; C
+(defun my-c-setup ()
+  "Custom C setup."
+  (setq c-basic-offset 8)
+  (setq indent-tabs-mode t))
+
+(add-hook 'c-mode-hook #'my-c-setup)
 
 ;; Go
 (defun my-go-setup ()
@@ -371,7 +381,11 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
           ,(make-mu4e-bookmark
             :name "Today's messages"
             :query "date:today..now and not flag:trashed and not maildir:\"/.*(Spam|All Mail|Trash)/\""
-            :key ?t))))
+            :key ?t)
+          ,(make-mu4e-bookmark
+            :name "All inboxes"
+            :query "maildir:/.*INBOX/"
+            :key ?a))))
 
 (use-package smtpmail
   :config

@@ -1,8 +1,8 @@
 ;;; This is my system configuration for GuixSD.
 (use-modules (gnu)
 	     (gnu system nss))
-(use-service-modules desktop xorg)
-(use-package-modules bootloaders certs suckless wm)
+(use-service-modules cups desktop xorg)
+(use-package-modules bootloaders certs cups suckless wm)
 
 (define custom-x11-keyboard
   "Section \"InputClass\"
@@ -56,6 +56,11 @@
  (services (cons*
 	    (extra-special-file "/usr/bin/env"
 				(file-append coreutils "/bin/env"))
+	    (service cups-service-type
+		     (cups-configuration
+		      (web-interface? #t)
+		      (extensions
+		       (list cups-filters hplip-minimal))))
 	    (modify-services %desktop-services
 			     (slim-service-type config =>
 						(slim-configuration
