@@ -29,7 +29,7 @@
 
 ;;; UI configuration
 ;; Color theme
-(defconst my-theme 'base16-woodland
+(defconst my-theme 'base16-mocha
   "The theme I want to use, as needed by `load-theme'.")
 (defun my-load-theme (frame)
   "Load the theme specified as `my-theme' using FRAME."
@@ -41,6 +41,9 @@
   :ensure t
   :config
   (add-hook 'after-make-frame-functions #'my-load-theme))
+
+;; Font
+(set-frame-font "monospace-10" nil t)
 
 ;; UI elements
 (menu-bar-mode -1)
