@@ -31,19 +31,22 @@
 ;; Color theme
 (defconst my-theme 'base16-mocha
   "The theme I want to use, as needed by `load-theme'.")
+
+;; Font
+(defconst my-font "monospace-10"
+  "The font I want to use by default.")
+
 (defun my-load-theme (frame)
   "Load the theme specified as `my-theme' using FRAME."
   (when (eq (length (frame-list)) 2)
     (with-selected-frame frame
+      (set-frame-font my-font t t)
       (load-theme my-theme t))))
 
 (use-package base16-theme
   :ensure t
   :config
   (add-hook 'after-make-frame-functions #'my-load-theme))
-
-;; Font
-(set-frame-font "monospace-10" nil t)
 
 ;; UI elements
 (menu-bar-mode -1)
@@ -70,7 +73,7 @@
 (setq tab-width 8)
 (setq c-basic-offset 2)
 (setq require-final-newline t)
-(setq fill-column 79)
+(setq-default fill-column 79)
 (setq backward-delete-char-untabify-method 'hungry)
 
 ;;; Keys config
