@@ -1,2 +1,15 @@
 #!/bin/sh
-exec emacsclient -a '' -c "$@"
+export TERM=dumb
+export tabstop=4
+
+if ! pgrep plumber; then
+	plumber
+fi
+
+if pgrep acme; then
+	if [ "$#" -eq 1 ]; then
+		plumb -d edit "$1"
+	fi
+else
+	exec acme "$@"
+fi
