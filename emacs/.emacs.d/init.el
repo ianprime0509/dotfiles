@@ -184,20 +184,20 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;; LSP (language server protocol)
 (use-package lsp-mode
   :ensure t
+  :hook (java-mode . lsp)
   :bind ("C-?" . lsp-describe-thing-at-point)
   :config
   (setq lsp-inhibit-message t))
 
 (use-package lsp-ui
   :after (lsp-mode flycheck)
-  :hook (lsp-mode . lsp-ui-mode)
+  :commands lsp-ui-mode
   :ensure t
-  :config
+  :init
   (setq lsp-ui-doc-enable nil)
   (setq lsp-ui-sideline-enable nil)
   (setq lsp-ui-peek-enable nil)
-  (setq lsp-ui-doc-enable nil)
-  (lsp-ui-flycheck-enable t))
+  (setq lsp-ui-doc-enable nil))
 
 ;; Debugging support
 (use-package dap-mode
@@ -255,7 +255,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 (use-package lsp-java
   :ensure t
-  :hook (java-mode . lsp-java-enable)
   :bind ("C-S-o" . lsp-java-organize-imports)
   :config
   ;; (add-to-list 'lsp-java-vmargs (concat "-javaagent:" my-lombok-jar-path) t)
