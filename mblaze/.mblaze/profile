@@ -1,0 +1,2 @@
+Sendmail: msmtp
+Sendmail-Args: -t --read-envelope-from
