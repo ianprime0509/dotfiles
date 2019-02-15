@@ -2,14 +2,12 @@
 export TERM=dumb
 export tabstop=4
 
-if ! pgrep plumber; then
+if ! pgrep plumber >/dev/null 2>&1; then
 	plumber
 fi
 
-if pgrep acme; then
-	if [ "$#" -eq 1 ]; then
-		plumb -d edit "$1"
-	fi
+if [ "$#" = 0 ] && ! pgrep acme; then
+	acme &
 else
-	exec acme "$@"
+	plumb -d edit "$1"
 fi
