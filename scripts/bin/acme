@@ -1,0 +1,8 @@
+#!/bin/sh
+export TERM=dumb
+export tabstop=4
+pfont='/mnt/font/Go Regular/11a/font'
+mfont='/mnt/font/Go Mono/11a/font'
+PLAN9=${PLAN9:-/usr/lib/plan9}
+
+exec $PLAN9/bin/acme -f "$pfont" -F "$mfont" "$@"

@@ -1,7 +1,4 @@
 #!/bin/sh
-export TERM=dumb
-export tabstop=4
-
 if ! pgrep plumber >/dev/null 2>&1; then
 	plumber
 fi
