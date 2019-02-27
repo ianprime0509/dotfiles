@@ -1,0 +1,21 @@
+IMAPAccount personal
+Host imap.gmail.com
+User ianprime0509@gmail.com
+PassCmd "pass google.com/app-passwords/ianprime0509"
+SSLType IMAPS
+
+IMAPStore personal-remote
+Account personal
+
+MaildirStore personal-local
+Subfolders Verbatim
+Path ~/mail/personal/
+Inbox ~/mail/personal/INBOX
+
+Channel personal
+Master :personal-remote:
+Slave :personal-local:
+Patterns *
+Create Slave
+Expunge Both
+SyncState *

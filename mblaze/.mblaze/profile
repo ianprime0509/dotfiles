@@ -1,2 +1,4 @@
 Sendmail: msmtp
 Sendmail-Args: -t --read-envelope-from
+Local-Mailbox: Ian Johnson <ianprime0509@gmail.com>
+Altenate-Mailboxes: Ian Johnson <iantimothyjohnson@gmail.com>, Ian Johnson <ij6fd@virginia.edu>
