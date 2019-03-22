@@ -1,0 +1,2 @@
+#!/bin/sh
+exec nobs <"$1" | spg
