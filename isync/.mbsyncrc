@@ -3,6 +3,7 @@ Host imap.gmail.com
 User ianprime0509@gmail.com
 PassCmd "pass google.com/app-passwords/ianprime0509"
 SSLType IMAPS
+SSLVersions TLSv1.1
 
 IMAPStore personal-remote
 Account personal
