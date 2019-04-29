@@ -1,2 +1,0 @@
-dwmstatus &
-exec dwm

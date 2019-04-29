@@ -1,0 +1,20 @@
+#!/bin/sh
+# sendmail-wrapper - simple wrapper script to get from name/address for sendmail
+# Uses mhdr(1), part of the mblaze(7) collection of tools
+die() {
+	echo "sendmail-wrapper: $*"
+	[ -n "$temp" ] && rm "$temp"
+	exit 1
+}
+
+SENDMAIL=${SENDMAIL:-sendmail}
+temp=`mktemp`
+cat >"$temp"
+from=`mhdr -h from "$temp"` || die "no from address specified"
+addr=`echo "$from" | sed -E 's/^.*<(.*)>.*$/\1/'`
+if [ x"$addr" != x"$from" ]; then
+	name=`echo "$from" | sed -E -e 's/^ *(.*)<.*$/\1/' -e 's/ *$//'`
+	"$SENDMAIL" -F "$name" -f "$addr" "$@" <"$temp"
+else
+	"$SENDMAIL" -f "$addr" "$@" <"$temp"
+fi || die "sendmail failed"

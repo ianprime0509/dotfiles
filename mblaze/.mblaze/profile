@@ -1,4 +1,3 @@
-Sendmail: msmtp
-Sendmail-Args: -t --read-envelope-from
+Sendmail: sendmail-wrapper
 Local-Mailbox: Ian Johnson <ianprime0509@gmail.com>
 Altenate-Mailboxes: Ian Johnson <iantimothyjohnson@gmail.com>, Ian Johnson <ij6fd@virginia.edu>
