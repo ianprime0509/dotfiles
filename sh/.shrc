@@ -1,6 +1,0 @@
-PS1='\u@\h \w\$ '
-
-export EDITOR=E
-export VISUAL=E
-export PAGER=spg
-export MANPAGER=manpager
