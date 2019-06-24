@@ -8,6 +8,8 @@ xsetroot -solid grey24
 # The menu key is useless; the compose key is useful
 setxkbmap -option compose:menu
 dwmstatus &
+# IME config
+fcitx
 # Execute dwm continuously so it can be restarted without logging off;
 # sending SIGTERM or something will cause the exit code to be non-zero
 while dwm >"$HOME/log/dwm.log" 2>&1; do

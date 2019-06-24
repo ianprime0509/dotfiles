@@ -1,6 +1,6 @@
 #!/bin/sh
 # Basically copied from plan9port's E script.
-path=`realpath "$1"`
+path=`readlink -f "$1"`
 if ! [ -e "$path" ]; then
 	: >"$path" || exit 1
 fi
