@@ -1,6 +1,0 @@
-#!/bin/sh
-page() {
-	sed `printf 's/\x1b\[[^@-~]*[@-~]//g'` | nobs | spg
-}
-
-cat "$@" | page

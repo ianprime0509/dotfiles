@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# ibus-switch - switch between ibus engines
+engines=(xkb:us::eng kkc)
+current=$(ibus engine)
+
+for i in "${!engines[@]}"; do
+    if [[ "$current" = "${engines[$i]}" ]]; then
+       idx=$(((i + 1) % ${#engines[@]}))
+       ibus engine "${engines[$idx]}"
+    fi
+done
