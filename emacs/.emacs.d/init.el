@@ -24,7 +24,7 @@
 (use-package base16-theme
   :straight t
   :config
-  (load-theme 'base16-my-auto t))
+  (load-theme 'base16-my-test t))
 
 (add-to-list 'default-frame-alist '(alpha . (90 . 60)))
 
@@ -37,11 +37,15 @@
 (tool-bar-mode -1)
 
 ;;; Editor behavior
-(setq backup-by-copying t   ; don't clobber symlinks
+(setq backup-directory-alist '(("." . "~/.saves"))
+      backup-by-copying t   ; don't clobber symlinks
       version-control t     ; use versioned backups
       delete-old-versions t
       kept-new-versions 6
       kept-old-versions 2)
+(setq require-final-newline t)
+(setq sentence-end-double-space nil)
+(setq default-input-method 'japanese)
 
 ;;; Indentation
 (setq indent-tabs-mode nil)
@@ -62,28 +66,32 @@
   :straight t
   :config (global-company-mode))
 
+(use-package rainbow-mode
+  :straight t)
+
+;;; Git
+(use-package magit
+  :straight t
+  :bind ("C-x g" . magit))
+
 ;;; Lisp
-(use-package paredit
+(use-package smartparens
   :straight t
   :hook ((eval-expression-minibuffer-setup
-	  emacs-lisp-mode
-	  lisp-mode
-	  slime-repl-mode) . enable-paredit-mode))
-
-(defun override-slime-repl-bindings-with-paredit ()
-  "Override SLIME's REPL DEL behavior.
-Taken from https://www.emacswiki.org/emacs/ParEdit."
-  (define-key slime-repl-mode-map
-    (read-kbd-macro paredit-backward-delete-key) nil))
-(add-hook 'slime-repl-mode-hook 'override-slime-repl-bindings-with-paredit)
+          emacs-lisp-mode
+          lisp-mode
+          slime-repl-mode) . smartparens-strict-mode)
+  :init
+  (add-hook 'smartparens-mode-hook #'sp-use-paredit-bindings)
+  :config
+  (require 'smartparens-config))
 
 (use-package slime
   :straight t
-  :hook lisp-mode
+  :hook (lisp-mode . slime-mode)
   :init
   (setq inferior-lisp-program "/usr/bin/sbcl")
-  (setq slime-contribs '(slime-fancy))
-  (add-hook 'slime-repl-mode-hook #'override-slime-repl-bindings-with-paredit))
+  (setq slime-contribs '(slime-fancy)))
 
 (defun my-emacs-lisp-mode-config ()
   "Custom config for Emacs Lisp mode."
