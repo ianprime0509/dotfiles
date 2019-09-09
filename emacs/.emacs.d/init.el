@@ -24,7 +24,7 @@
 (use-package base16-theme
   :straight t
   :config
-  (load-theme 'base16-my-test t))
+  (load-theme 'base16-theme-manager t))
 
 (add-to-list 'default-frame-alist '(alpha . (90 . 60)))
 
