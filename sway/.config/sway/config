@@ -22,7 +22,7 @@ set $menu bemenu-run -b | xargs swaymsg exec --
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg /home/ian/Pictures/megusparkle.png fill
+output * bg /home/ian/Pictures/bocchi.png fill
 #
 # Example configuration:
 #
@@ -204,22 +204,22 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
-set $base00 #262329
-set $base01 #403B45
-set $base02 #595260
-set $base03 #73697C
-set $base04 #8C8396
-set $base05 #A69FAD
-set $base06 #BFBAC4
-set $base07 #908799
-set $base08 #E35B5B
-set $base09 #DFAC5F
-set $base0A #3B93D2
-set $base0B #517A99
-set $base0C #66A0D6
-set $base0D #925C99
-set $base0E #D786E0
-set $base0F #C73D54
+set $base00 #21282C
+set $base01 #364349
+set $base02 #4C5D66
+set $base03 #627884
+set $base04 #7B919D
+set $base05 #99AAB3
+set $base06 #B6C2C9
+set $base07 #6B8390
+set $base08 #996B5C
+set $base09 #E2A488
+set $base0A #188499
+set $base0B #537A99
+set $base0C #7A9DCB
+set $base0D #705C99
+set $base0E #E3729D
+set $base0F #E15D75
 
 # Basic color configuration using the Base16 variables for windows and borders.
 # Property Name         Border  BG      Text    Indicator Child Border
