@@ -3,22 +3,22 @@
 (require 'base16-theme)
 
 (defvar base16-theme-manager-colors
-  '(:base00 "#21282C"
-    :base01 "#364349"
-    :base02 "#4C5D66"
-    :base03 "#627884"
-    :base04 "#7B919D"
-    :base05 "#99AAB3"
-    :base06 "#B6C2C9"
-    :base07 "#6B8390"
-    :base08 "#996B5C"
-    :base09 "#E2A488"
-    :base0A "#188499"
-    :base0B "#537A99"
-    :base0C "#7A9DCB"
-    :base0D "#705C99"
-    :base0E "#E3729D"
-    :base0F "#E15D75")
+  '(:base00 "#1F2D21"
+    :base01 "#344C37"
+    :base02 "#486A4D"
+    :base03 "#5D8864"
+    :base04 "#77A27D"
+    :base05 "#95B79A"
+    :base06 "#B3CBB7"
+    :base07 "#C0D4C3"
+    :base08 "#BB8065"
+    :base09 "#E0B086"
+    :base0A "#6FAE68"
+    :base0B "#90E388"
+    :base0C "#77C695"
+    :base0D "#88B0E3"
+    :base0E "#6984AF"
+    :base0F "#E5898E")
   "Colors for Theme-manager generated theme")
 
 ;; Define the theme

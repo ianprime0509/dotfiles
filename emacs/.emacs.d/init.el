@@ -37,6 +37,8 @@ There are two things you can do about this warning:
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 
+(require 'use-package)
+
 (add-to-list 'load-path "~/.emacs.d/lisp")
 
 ;;; Path setup
@@ -85,6 +87,7 @@ There are two things you can do about this warning:
 (setq require-final-newline t)
 (setq sentence-end-double-space nil)
 (setq default-input-method 'japanese)
+(prefer-coding-system 'utf-8)
 
 ;;; Web browser
 (setq browse-url-browser-function #'eww-browse-url)
@@ -97,9 +100,9 @@ There are two things you can do about this warning:
 ;;; General programming stuff
 (setq vc-follow-symlinks t)
 
-(use-package flycheck
+(use-package flymake
   :ensure t
-  :hook (prog-mode . flycheck-mode))
+  :hook (prog-mode . flymake-mode))
 
 (use-package company
   :ensure t
@@ -134,7 +137,7 @@ There are two things you can do about this warning:
   :ensure t
   :commands lsp-ui-mode
   :config
-  (setq lsp-ui-flycheck-enable t)
+  (setq lsp-ui-flycheck-enable nil)
   (setq lsp-ui-peek-enable t)
   (setq lsp-ui-sideline-enable nil)
   (setq lsp-ui-doc-enable nil)
@@ -164,7 +167,7 @@ There are two things you can do about this warning:
   :hook ((eval-expression-minibuffer-setup
           emacs-lisp-mode
           lisp-mode
-          slime-repl-mode) . smartparens-strict-mode)
+          slime-repl-mode) . smartparens-mode)
   :init
   (add-hook 'smartparens-mode-hook #'sp-use-paredit-bindings)
   :config
