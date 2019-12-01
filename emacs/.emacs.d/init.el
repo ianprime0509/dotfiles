@@ -62,8 +62,6 @@ There are two things you can do about this warning:
   :config
   (load-theme 'base16-theme-manager t))
 
-(add-to-list 'default-frame-alist '(alpha . (90 . 60)))
-
 (menu-bar-mode -1)
 (defun turn-off-scroll-bar (frame)
   "Turn off scroll bars for FRAME."
@@ -71,6 +69,7 @@ There are two things you can do about this warning:
     (toggle-scroll-bar -1)))
 (add-to-list 'after-make-frame-functions #'turn-off-scroll-bar)
 (tool-bar-mode -1)
+(setq-default cursor-type 'bar)
 
 (use-package whitespace
   :config
@@ -168,8 +167,28 @@ There are two things you can do about this warning:
           emacs-lisp-mode
           lisp-mode
           slime-repl-mode) . smartparens-mode)
-  :init
-  (add-hook 'smartparens-mode-hook #'sp-use-paredit-bindings)
+  ;; Mostly copied from sp-paredit-bindings
+  :bind (("C-M-f" . sp-forward-sexp)
+         ("C-M-b" . sp-backward-sexp)
+         ("C-M-u" . sp-backward-up-sexp)
+         ("C-M-d" . sp-down-sexp)
+         ("C-M-p" . sp-backward-down-sexp)
+         ("C-M-n" . sp-up-sexp)
+         ("M-s" . sp-splice-sexp)
+         ("M-<up>" . sp-splice-sexp-killing-backward)
+         ("M-<down>" . sp-splice-sexp-killing-forward)
+         ("M-r" . sp-splice-sexp-killing-around)
+         ("M-(" . sp-wrap-round)
+         ("C-)" . sp-forward-slurp-sexp)
+         ("C-<right>" . sp-forward-slurp-sexp)
+         ("C-}" . sp-forward-barf-sexp)
+         ("C-<left>" . sp-forward-barf-sexp)
+         ("C-(" . sp-backward-slurp-sexp)
+         ("C-M-<left>" . sp-backward-slurp-sexp)
+         ("C-{" . sp-backward-barf-sexp)
+         ("C-M-<right>" . sp-backward-barf-sexp)
+         ("M-S" . sp-split-sexp)
+         ("M-j" . sp-join-sexp))
   :config
   (require 'smartparens-config))
 
@@ -181,9 +200,15 @@ There are two things you can do about this warning:
   (setq slime-contribs '(slime-fancy))
   (setq common-lisp-hyperspec-root "file:///home/ian/HyperSpec/"))
 
+(setq xref-prompt-for-identifier '(not xref-find-definitions
+                                       xref-find-definitions-other-window
+                                       xref-find-definitions-other-frame
+                                       xref-find-references))
+
 (defun my-emacs-lisp-mode-config ()
   "Custom config for Emacs Lisp mode."
-  (local-set-key (kbd "C-c b") #'eval-buffer))
+  (local-set-key (kbd "C-c b") #'eval-buffer)
+  (local-set-key (kbd "M-?") #'xref-find-references))
 
 (add-hook 'emacs-lisp-mode-hook #'my-emacs-lisp-mode-config)
 
