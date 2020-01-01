@@ -1,0 +1,4 @@
+*.fasl
+*.jar
+
+stumpwm/.stumpwm.d/modules/
