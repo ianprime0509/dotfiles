@@ -207,7 +207,8 @@ There are two things you can do about this warning:
 
 (defun my-emacs-lisp-mode-config ()
   "Custom config for Emacs Lisp mode."
-  (local-set-key (kbd "C-c b") #'eval-buffer)
+  (local-set-key (kbd "C-c C-k") #'eval-buffer)
+  (local-set-key (kbd "C-c C-c") #'eval-defun)
   (local-set-key (kbd "M-?") #'xref-find-references))
 
 (add-hook 'emacs-lisp-mode-hook #'my-emacs-lisp-mode-config)
