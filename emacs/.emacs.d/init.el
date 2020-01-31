@@ -256,5 +256,9 @@ There are two things you can do about this warning:
 
 (add-hook 'python-mode-hook #'my-python-mode-config)
 
+;;; Miscellaneous
+
+(use-package jmdict)
+
 (provide 'init)
 ;;; init.el ends here

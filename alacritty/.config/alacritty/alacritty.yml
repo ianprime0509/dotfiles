@@ -173,35 +173,35 @@ draw_bold_text_with_bright_colors: true
 colors:
   # Default colors
   primary:
-    background: '0x1F2D21'
-    foreground: '0x95B79A'
+    background: '0x3B1216'
+    foreground: '0xD6767F'
 
   # Colors the cursor will use if `custom_cursor_colors` is true
   cursor:
-    text: '0x1F2D21'
-    cursor: '0x95B79A'
+    text: '0x3B1216'
+    cursor: '0xD6767F'
 
   # Normal colors
   normal:
-    black:   '0x1F2D21'
-    red:     '0xBB8065'
-    green:   '0x90E388'
-    yellow:  '0x6FAE68'
-    blue:    '0x88B0E3'
-    magenta: '0x6984AF'
-    cyan:    '0x77C695'
-    white:   '0x95B79A'
+    black:   '0x3B1216'
+    red:     '0x995C5C'
+    green:   '0x5CAE82'
+    yellow:  '0x71E1A5'
+    blue:    '0xE388A2'
+    magenta: '0xCA7985'
+    cyan:    '0x5C6499'
+    white:   '0xD6767F'
 
   # Bright colors
   bright:
-    black:   '0x5D8864'
-    red:     '0xE0B086'
-    green:   '0x344C37'
-    yellow:  '0x486A4D'
-    blue:    '0x77A27D'
-    magenta: '0xB3CBB7'
-    cyan:    '0xE5898E'
-    white:   '0xC0D4C3'
+    black:   '0xB13541'
+    red:     '0xA08B60'
+    green:   '0x621D24'
+    yellow:  '0x892933'
+    blue:    '0xCA4E5B'
+    magenta: '0xE29DA4'
+    cyan:    '0xC15360'
+    white:   '0xEEC6CA'
 
 # Visual Bell
 #

@@ -8,7 +8,7 @@
 
 ;;; Wallpaper
 
-(defparameter *my-wallpaper-path* "/home/ian/Pictures/mio.png")
+(defparameter *my-wallpaper-path* "/home/ian/Pictures/mayoi.png")
 (run-shell-command (format nil "feh --no-fehbg --bg-fill '~a'"
                            *my-wallpaper-path*))
 
@@ -67,7 +67,7 @@
 
 ;;; Keys
 
-(run-shell-command "setxkbmap -option caps:ctrl_modifier")
+(run-shell-command "setxkbmap -option caps:ctrl_modifier -option compose:menu")
 (run-shell-command "ibus-daemon -drx")
 
 (define-key *top-map* (kbd "XF86AudioRaiseVolume") "raise-volume 5")
